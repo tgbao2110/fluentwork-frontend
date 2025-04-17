@@ -1,0 +1,99 @@
+.background {
+    background-color: #EBECFE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .login-modal {
+    background-color: white;
+    display: flex;
+    width: 60%;
+    height: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .login-form-container {
+    width: 50%;
+  }
+  
+  .login-form {
+    height: 100%;
+    padding-left: 25%;
+    padding-right: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .login-form h1 {
+    font-size: 24px;
+  }
+  
+  .login-form input {
+    font-family: 'Poppins';
+    padding: 15px;
+    background-color: #EFF0F6;
+    border: none;
+    border-radius: 10px;
+  }
+  
+  .login-form input:focus {
+    outline: none;
+  }
+  
+  .login-form a {
+    color: #610BEF;
+    text-decoration: none;
+    font-weight:600;
+  }
+  
+  .login-form button {
+    font-family: Poppins;
+    font-weight: 500;
+    width: 40%;
+    padding: 10px;
+    background-color: #610BEF;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  .login-form .no-account {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  .login-form .small-text {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+  
+  .login-form .small-text a {
+    color: #610BEF;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .login-form .gap {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .image {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image img {
+    max-width: 100%;
+    height: auto;
+  }
