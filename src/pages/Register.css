@@ -6,7 +6,7 @@
     height: 100vh;
   }
   
-  .login-modal {
+  .register-modal {
     background-color: white;
     display: flex;
     width: 60%;
@@ -15,11 +15,11 @@
     border-radius: 10px;
   }
   
-  .login-form-container {
+  .register-form-container {
     width: 50%;
   }
   
-  .login-form {
+  .register-form {
     height: 100%;
     padding-left: 25%;
     padding-right: 25%;
@@ -29,11 +29,11 @@
     gap: 10px;
   }
   
-  .login-form h1 {
+  .register-form h1 {
     font-size: 24px;
   }
   
-  .login-form input {
+  .register-form input {
     font-family: 'Poppins';
     padding: 15px;
     background-color: #EFF0F6;
@@ -41,21 +41,22 @@
     border-radius: 10px;
   }
   
-  .login-form input:focus {
+  .register-form input:focus {
     outline: none;
   }
   
-  .login-form a {
+  .register-form a {
     color: #610BEF;
     text-decoration: none;
     font-weight:600;
   }
   
-  .login-form button {
+  .register-form button {
     font-family: Poppins;
     font-weight: 500;
     width: 40%;
     padding: 10px;
+    margin-top: 10px;
     background-color: #610BEF;
     color: white;
     border: none;
@@ -64,24 +65,24 @@
     align-self: flex-start;
   }
   
-  .login-form .no-account {
+  .register-form .no-account {
     display: block;
     margin-top: 10px;
     text-align: center;
   }
   
-  .login-form .small-text {
+  .register-form .small-text {
     font-size: 14px;
     line-height: 1.2;
   }
   
-  .login-form .small-text a {
+  .register-form .small-text a {
     color: #610BEF;
     text-decoration: none;
     font-size: 14px;
   }
   
-  .login-form .gap {
+  .register-form .gap {
     margin-top: 5px;
     margin-bottom: 5px;
   }
@@ -116,3 +117,4 @@
     cursor: pointer;
     color: #888;
   }
+  
