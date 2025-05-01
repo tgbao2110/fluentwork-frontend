@@ -1,5 +1,5 @@
 import React, { JSX, useState } from "react";
-import "./Register.css";
+import styles from "./Register.module.css";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
 const Register: React.FC = () => {
@@ -11,23 +11,23 @@ const Register: React.FC = () => {
     setShowConfirmPassword(!showConfirmPassword);
 
   return (
-    <div className="background">
-      <div className="register-modal">
-        <div className="register-form-container">
-          <div className="register-form">
+    <div className={styles.background}>
+      <div className={styles.registerModal}>
+        <div className={styles.registerFormContainer}>
+          <div className={styles.registerForm}>
             <h1>Create an account</h1>
             <input type="text" placeholder="Full name" />
             <input type="text" placeholder="Email" />
             <input type="text" placeholder="Username" />
 
             {/* Password Field */}
-            <div className="password-field">
+            <div className={styles.passwordField}>
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
               />
               <span
-                className="icon"
+                className={styles.icon}
                 onClick={togglePasswordVisibility}
                 role="button"
                 aria-label="Toggle password visibility"
@@ -37,13 +37,13 @@ const Register: React.FC = () => {
             </div>
 
             {/* Confirm Password Field */}
-            <div className="password-field">
+            <div className={styles.passwordField}>
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirm password"
               />
               <span
-                className="icon"
+                className={styles.icon}
                 onClick={toggleConfirmPasswordVisibility}
                 role="button"
                 aria-label="Toggle confirm password visibility"
@@ -57,13 +57,13 @@ const Register: React.FC = () => {
             </div>
 
             <button>Register</button>
-            <div className="small-text gap">
+            <div className={styles.smallText + " " + styles.gap}>
               <span>Already have an account?</span>{" "}
               <a href="/register">Log in</a>
             </div>
           </div>
         </div>
-        <div className="image">
+        <div className={styles.image}>
           <img src="/login.png" alt="Relevant illustration" />
         </div>
       </div>

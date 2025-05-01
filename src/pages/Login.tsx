@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.css";
+import styles from "./Login.module.css";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
 const Login: React.FC = () => {
@@ -8,24 +8,24 @@ const Login: React.FC = () => {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
-    <div className="background">
-      <div className="login-modal">
+    <div className={styles.background}>
+      <div className={styles.loginModal}>
         {/* Login Form Section */}
-        <div className="login-form-container">
-          <div className="login-form">
+        <div className={styles.loginFormContainer}>
+          <div className={styles.loginForm}>
             <h1>Welcome back</h1>
 
             {/* --- Username Input --- */}
             <input type="text" placeholder="Username" />
 
             {/* --- Password Input with Toggle Icon --- */}
-            <div className="password-field">
+            <div className={styles.passwordField}>
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
               />
               <span
-                className="icon"
+                className={styles.icon}
                 onClick={togglePasswordVisibility}
                 role="button"
                 aria-label="Toggle password visibility"
@@ -35,7 +35,7 @@ const Login: React.FC = () => {
             </div>
 
             {/* --- Forgot Password --- */}
-            <div className="small-text gap">
+            <div className={styles.smallText + " " + styles.gap}>
               <a href="/forgot-password">Forgot password?</a>
             </div>
 
@@ -43,14 +43,14 @@ const Login: React.FC = () => {
             <button>Log in</button>
 
             {/* --- Register Link --- */}
-            <div className="small-text gap">
+            <div className={styles.smallText + " " + styles.gap}>
               <span>No account yet?</span> <a href="/register">Register here</a>
             </div>
           </div>
         </div>
 
         {/* Image Section */}
-        <div className="image">
+        <div className={styles.image}>
           <img src="/login.png" alt="Relevant illustration" />
         </div>
       </div>

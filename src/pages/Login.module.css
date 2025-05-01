@@ -6,7 +6,7 @@
     height: 100vh;
   }
   
-  .register-modal {
+  .loginModal {
     background-color: white;
     display: flex;
     width: 60%;
@@ -15,11 +15,11 @@
     border-radius: 10px;
   }
   
-  .register-form-container {
+  .loginFormContainer {
     width: 50%;
   }
   
-  .register-form {
+  .loginForm {
     height: 100%;
     padding-left: 25%;
     padding-right: 25%;
@@ -29,11 +29,11 @@
     gap: 10px;
   }
   
-  .register-form h1 {
+  .loginForm h1 {
     font-size: 24px;
   }
   
-  .register-form input {
+  .loginForm input {
     font-family: 'Poppins';
     padding: 15px;
     background-color: #EFF0F6;
@@ -41,22 +41,21 @@
     border-radius: 10px;
   }
   
-  .register-form input:focus {
+  .loginForm input:focus {
     outline: none;
   }
   
-  .register-form a {
+  .loginForm a {
     color: #610BEF;
     text-decoration: none;
-    font-weight:600;
+    font-weight: 600;
   }
   
-  .register-form button {
+  .loginForm button {
     font-family: Poppins;
     font-weight: 500;
     width: 40%;
     padding: 10px;
-    margin-top: 10px;
     background-color: #610BEF;
     color: white;
     border: none;
@@ -65,24 +64,24 @@
     align-self: flex-start;
   }
   
-  .register-form .no-account {
+  .loginForm .noAccount {
     display: block;
     margin-top: 10px;
     text-align: center;
   }
   
-  .register-form .small-text {
+  .loginForm .smallText {
     font-size: 14px;
     line-height: 1.2;
   }
   
-  .register-form .small-text a {
+  .loginForm .smallText a {
     color: #610BEF;
     text-decoration: none;
     font-size: 14px;
   }
   
-  .register-form .gap {
+  .loginForm .gap {
     margin-top: 5px;
     margin-bottom: 5px;
   }
@@ -99,22 +98,21 @@
     height: auto;
   }
 
-  .password-field {
+  .passwordField {
     position: relative;
     display: flex;
     align-items: center;
   }
   
-  .password-field input {
+  .passwordField input {
     width: 100%;
     padding-right: 40px;
   }
   
-  .password-field .icon {
+  .passwordField .icon {
     position: absolute;
     right: 10px;
     top: 15px;
     cursor: pointer;
     color: #888;
   }
-  

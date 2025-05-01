@@ -6,7 +6,7 @@
     height: 100vh;
   }
   
-  .login-modal {
+  .registerModal {
     background-color: white;
     display: flex;
     width: 60%;
@@ -15,11 +15,11 @@
     border-radius: 10px;
   }
   
-  .login-form-container {
+  .registerFormContainer {
     width: 50%;
   }
   
-  .login-form {
+  .registerForm {
     height: 100%;
     padding-left: 25%;
     padding-right: 25%;
@@ -29,11 +29,11 @@
     gap: 10px;
   }
   
-  .login-form h1 {
+  .registerForm h1 {
     font-size: 24px;
   }
   
-  .login-form input {
+  .registerForm input {
     font-family: 'Poppins';
     padding: 15px;
     background-color: #EFF0F6;
@@ -41,21 +41,22 @@
     border-radius: 10px;
   }
   
-  .login-form input:focus {
+  .registerForm input:focus {
     outline: none;
   }
   
-  .login-form a {
+  .registerForm a {
     color: #610BEF;
     text-decoration: none;
     font-weight:600;
   }
   
-  .login-form button {
+  .registerForm button {
     font-family: Poppins;
     font-weight: 500;
     width: 40%;
     padding: 10px;
+    margin-top: 10px;
     background-color: #610BEF;
     color: white;
     border: none;
@@ -64,24 +65,24 @@
     align-self: flex-start;
   }
   
-  .login-form .no-account {
+  .registerForm .noAccount {
     display: block;
     margin-top: 10px;
     text-align: center;
   }
   
-  .login-form .small-text {
+  .registerForm .smallText {
     font-size: 14px;
     line-height: 1.2;
   }
   
-  .login-form .small-text a {
+  .registerForm .smallText a {
     color: #610BEF;
     text-decoration: none;
     font-size: 14px;
   }
   
-  .login-form .gap {
+  .registerForm .gap {
     margin-top: 5px;
     margin-bottom: 5px;
   }
@@ -98,21 +99,22 @@
     height: auto;
   }
 
-  .password-field {
+  .passwordField {
     position: relative;
     display: flex;
     align-items: center;
   }
   
-  .password-field input {
+  .passwordField input {
     width: 100%;
     padding-right: 40px;
   }
   
-  .password-field .icon {
+  .passwordField .icon {
     position: absolute;
     right: 10px;
     top: 15px;
     cursor: pointer;
     color: #888;
   }
+  
