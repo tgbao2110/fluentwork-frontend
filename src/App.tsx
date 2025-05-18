@@ -1,12 +1,13 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import TestPage from './pages/testPages/Test';
-import TestInfoPage from './pages/testPages/TestInfo';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import TestPage from './pages/placementTest/Test';
+import TestInfoPage from './pages/placementTest/TestInfo';
 import Results from './pages/Results';
-import Answer from './pages/testPages/Answer';
-import ForgotPassword from './pages/ForgotPassword';
+import Answer from './pages/placementTest/Answer';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import Flashcards from './pages/flashcards/Flashcards';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/results" element={<Results />} />
         <Route path="/answer" element={<Answer />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/flashcards" element={<Flashcards />} />
       </Routes>
     </BrowserRouter>
   );
