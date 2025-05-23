@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./flashcards.module.css";
+import styles from "./Flashcard.module.css";
 
 const Flashcard: React.FC<{ vocab: string; meaning: string }> = ({ vocab, meaning }) => {
   const [isFlipped, setIsFlipped] = useState(false);

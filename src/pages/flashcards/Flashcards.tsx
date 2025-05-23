@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./flashcards.module.css";
+import styles from "./Flashcard.module.css";
 import Flashcard from "./Flashcard";
 import Navbar from "../../components/Navbar";
 

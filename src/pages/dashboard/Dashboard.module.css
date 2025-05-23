@@ -1,0 +1,144 @@
+.wrapper {
+  font-family: Poppins, sans-serif;
+  padding: 40px 20px;
+  background: #fafbff;
+  min-height: 100vh;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.card {
+  background: #f9f9ff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 20px;
+  color: #610bef;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.icon {
+  font-size: 20px;
+}
+
+.smallIcon {
+  margin-right: 5px;
+  color: #999;
+}
+
+.userProfile {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profileText strong {
+  font-size: 17px;
+  display: block;
+}
+
+.profileText .label {
+  font-size: 13px;
+  color: #777;
+}
+
+.profileBadge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #fff6db;
+  color: #b8860b;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 14px;
+  width: fit-content;
+  gap: 6px;
+  border: 1px solid #ffd700;
+}
+
+
+.progressStats {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.statBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.statNumber {
+  font-size: 28px;
+  font-weight: bold;
+  color: #610bef;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.recentActivity {
+  grid-column: span 2;
+}
+
+.activityTable {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.activityHeader,
+.activityRow {
+  display: grid;
+  grid-template-columns: 3fr 2fr 1fr 2fr;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.activityHeader {
+  font-weight: bold;
+  color: #444;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ddd;
+}
+
+.activityRow {
+  background-color: #eff0f6;
+  padding: 12px 15px;
+  border-radius: 8px;
+}
+
+.status {
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recentActivity {
+    grid-column: span 1;
+  }
+}

@@ -8,12 +8,13 @@ import Results from './pages/Results';
 import Answer from './pages/placementTest/Answer';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import Flashcards from './pages/flashcards/Flashcards';
+import Dashboard from './pages/dashboard/Dashboard';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/test" element={<TestPage />} />
