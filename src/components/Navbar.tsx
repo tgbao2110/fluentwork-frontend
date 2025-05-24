@@ -11,8 +11,9 @@ const Navbar: React.FC<NavbarProps> = ({ userName, profilePicUrl }) => {
     <nav className="navbar">
       <div className="nav-left">
         <a href="/" className="nav-logo">FluentWork</a>
-        <a href="/home" className="nav-link">Home</a>
-        <a href="/lessons" className="nav-link">Lessons</a>
+        <a href="/" className="nav-link">Home</a>
+        <a href="/test-info" className="nav-link">Tests</a>
+        <a href="/flashcards" className="nav-link">Flashcards</a>
         <a href="/results" className="nav-link">Results</a>
       </div>
       <div className="nav-right">

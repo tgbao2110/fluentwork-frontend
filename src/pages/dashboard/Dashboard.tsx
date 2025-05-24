@@ -13,6 +13,7 @@ const Dashboard: React.FC = () => {
       />
     <div className={styles.wrapper}>
       <div className={styles.grid}>
+        
         {/* User Profile Summary */}
         <section className={`${styles.card} ${styles.userProfile}`}>
           <h2><FaUser className={styles.icon} /> Profile Overview</h2>
@@ -22,7 +23,7 @@ const Dashboard: React.FC = () => {
               <span className={styles.label}>Full Name</span>
             </div>
             <div className={styles.profileText}>
-              <strong>john.doe@example.com</strong>
+              <strong>giabao@gmail.com</strong>
               <span className={styles.label}>Email</span>
             </div>
             <div className={styles.profileBadge}>
