@@ -76,11 +76,6 @@ const TestPage: React.FC = () => {
   const selectedChoice = answers[currentQuestionIndex];
 
   return (
-    <div>
-      <Navbar
-        userName="User Name"
-        profilePicUrl="https://via.placeholder.com/150"
-      />
       <div className={styles.pageWrapper}>
         <div className={styles.testContainer}>
           <div className={styles.questionBox}>
@@ -125,7 +120,6 @@ const TestPage: React.FC = () => {
           </button>
         </div>
       </div>
-    </div>
   );
 };
 

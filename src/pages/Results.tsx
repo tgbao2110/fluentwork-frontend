@@ -46,8 +46,6 @@ const Results: React.FC = () => {
   };
 
   return (
-    <div>
-      <Navbar userName="User Name" profilePicUrl="https://via.placeholder.com/150" />
       <div className={styles.completedTestsWrapper}>
         <div className={styles.userHeader}>
           <h2>
@@ -96,7 +94,6 @@ const Results: React.FC = () => {
           </button>
         </div>
       </div>
-    </div>
   );
 };
 

@@ -1,24 +1,36 @@
-import React from "react";
-import "./Navbar.css";
+import React, { useState } from "react";
+import styles from "./Navbar.module.css";
+import { useUser } from "../ultils/UserContext";
 
-interface NavbarProps {
-  userName: string;
-  profilePicUrl: string;
-}
 
-const Navbar: React.FC<NavbarProps> = ({ userName, profilePicUrl }) => {
+const Navbar: React.FC = () => {
+  const { userName, profilePicUrl } = useUser();
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
   return (
-    <nav className="navbar">
-      <div className="nav-left">
-        <a href="/" className="nav-logo">FluentWork</a>
-        <a href="/" className="nav-link">Home</a>
-        <a href="/test-info" className="nav-link">Tests</a>
-        <a href="/flashcards" className="nav-link">Flashcards</a>
-        <a href="/results" className="nav-link">Results</a>
+    <nav className={styles.navbar}>
+      <div className={styles.navLeft}>
+        <a href="/" className={styles.navLogo}>FluentWork</a>
+        <a href="/" className={styles.navLink}>Home</a>
+        <div 
+          className={styles.navDropdownTrigger} 
+          onClick={() => setDropdownOpen(!isDropdownOpen)}
+        >
+          Tests
+          {isDropdownOpen && (
+            <div className={styles.navDropdown}>
+              <a href="/tests/vocabulary" className={styles.dropdownItem}>Vocabulary</a>
+              <a href="/tests/grammar" className={styles.dropdownItem}>Grammar</a>
+              <a href="/tests/mix" className={styles.dropdownItem}>Mix</a>
+            </div>
+          )}
+        </div>
+        <a href="/flashcards" className={styles.navLink}>Flashcards</a>
+        <a href="/results" className={styles.navLink}>Results</a>
       </div>
-      <div className="nav-right">
-        <span className="nav-username">{userName}</span>
-        <img className="nav-profile-pic" src={profilePicUrl} alt="Profile" />
+      <div className={styles.navRight}>
+        <span className={styles.navUsername}>{userName}</span>
+        <img className={styles.navProfilePic} src={profilePicUrl} alt="Profile" />
       </div>
     </nav>
   );

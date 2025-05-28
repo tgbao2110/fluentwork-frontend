@@ -18,8 +18,6 @@ const TestInfoPage: React.FC = () => {
   };
 
   return (
-    <div>
-        <Navbar userName="User Name" profilePicUrl="https://via.placeholder.com/150" />
     <div className={styles.testInfoWrapper}>
       <div className={styles.testCard}>
         <h1 className={styles.testHeading}>{testName}</h1>
@@ -46,7 +44,6 @@ const TestInfoPage: React.FC = () => {
           Start Test
         </button>
       </div>
-    </div>
     </div>
   );
 };

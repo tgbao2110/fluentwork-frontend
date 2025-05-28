@@ -62,8 +62,6 @@ const Answer: React.FC = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div>
-      <Navbar userName="User Name" profilePicUrl="https://via.placeholder.com/150" />
       <div className={styles.pageWrapper}>
         <div className={styles.testContainer}>
           <div className={styles.flexRow}>
@@ -105,7 +103,6 @@ const Answer: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

@@ -6,11 +6,6 @@ import { MdOutlineHistory } from "react-icons/md";
 
 const Dashboard: React.FC = () => {
   return (
-    <div>
-      <Navbar
-        userName="User Name"
-        profilePicUrl="https://via.placeholder.com/150"
-      />
     <div className={styles.wrapper}>
       <div className={styles.grid}>
         
@@ -83,7 +78,6 @@ const Dashboard: React.FC = () => {
           </div>
         </section>
       </div>
-    </div>
     </div>
   );
 };

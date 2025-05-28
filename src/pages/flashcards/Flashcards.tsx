@@ -21,15 +21,12 @@ const Flashcards: React.FC = () => {
   };
 
   return (
-    <div>
-    <Navbar userName="User Name" profilePicUrl="https://via.placeholder.com/150" />
     <div className={styles.flashcardWrapper}>
       <Flashcard vocab={vocabList[index].vocab} meaning={vocabList[index].meaning} />
       <div className={styles.navigation}>
         <button onClick={handleBack} disabled={index === 0}>Back</button>
         <button onClick={handleNext} disabled={index === vocabList.length - 1}>Next</button>
       </div>
-    </div>
     </div>
   );
 };
