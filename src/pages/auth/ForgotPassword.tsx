@@ -1,26 +1,38 @@
-// ForgotPassword.tsx
-
-import React from "react";
-import "./ForgotPassword.css";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./ForgotPassword.module.css";
 
 const ForgotPassword: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate("/change-password", { state: { email } }); // Pass email to ChangePassword
+  };
+
   return (
-    <div className="background">
-      <div className="login-modal">
-        <div className="login-form-container">
-          <div className="login-form">
+    <div className={styles.background}>
+      <div className={styles.loginModal}>
+        <div className={styles.loginFormContainer}>
+          <form className={styles.loginForm} onSubmit={handleSubmit}>
             <h1>Forgot Password</h1>
-
-            {/* --- Email Input --- */}
-            <input type="email" placeholder="Email address" />
-
-            {/* --- Submit Button --- */}
-            <button>Reset Password</button>
-          </div>
+            <input
+              type="email"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <div className={styles.buttonContainer}>
+              <button type="submit" className={styles.submitButton}>Submit</button>
+              <button type="button" className={styles.cancelButton} onClick={() => navigate("/login")}>
+                Back to login
+              </button>
+            </div>
+          </form>
         </div>
-
-        {/* Image Section (Optional) */}
-        <div className="image">
+        <div className={styles.image}>
           <img src="/login.png" alt="Forgot Password Illustration" />
         </div>
       </div>

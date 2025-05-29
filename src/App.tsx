@@ -8,6 +8,7 @@ import TestInfoPage from "./pages/placementTest/TestInfo";
 import Results from "./pages/Results";
 import Answer from "./pages/placementTest/Answer";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import ChangePassword from "./pages/auth/ChangePassword";
 import Flashcards from "./pages/flashcards/Flashcards";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Topics from "./pages/lesson/Topics";
@@ -29,6 +30,7 @@ function App() {
           <Route path="/results" element={<Results />} />
           <Route path="/answer" element={<Answer />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/flashcards" element={<Flashcards />} />
           <Route path="/lesson" element={<Topics />} />
           <Route path="/lesson/:name" element={<Lesson />} />
