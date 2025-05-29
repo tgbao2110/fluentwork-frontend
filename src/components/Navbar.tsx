@@ -19,9 +19,9 @@ const Navbar: React.FC = () => {
           Tests
           {isDropdownOpen && (
             <div className={styles.navDropdown}>
-              <a href="/tests/vocabulary" className={styles.dropdownItem}>Vocabulary</a>
-              <a href="/tests/grammar" className={styles.dropdownItem}>Grammar</a>
-              <a href="/tests/mix" className={styles.dropdownItem}>Mix</a>
+              <a href="/test-info" className={styles.dropdownItem}>Vocabulary</a>
+              <a href="/test-info" className={styles.dropdownItem}>Grammar</a>
+              <a href="/test-info" className={styles.dropdownItem}>Mix</a>
             </div>
           )}
         </div>

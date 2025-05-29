@@ -12,6 +12,7 @@ import Flashcards from "./pages/flashcards/Flashcards";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Topics from "./pages/lesson/Topics";
 import Home from "./pages/home/Home";
+import Lesson from "./pages/lesson/Lesson";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/flashcards" element={<Flashcards />} />
           <Route path="/lesson" element={<Topics />} />
+          <Route path="/lesson/:name" element={<Lesson />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>

@@ -1,17 +1,29 @@
-// lesson.tsx
 import React from "react";
-import { useLocation } from "react-router-dom";
+import styles from "./Lesson.module.css";
+import { useLocation, useParams } from "react-router-dom";
 
 const Lesson: React.FC = () => {
+  const { name } = useParams(); // get from path: /lesson/:name
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
+  const state = location.state || {};
+  const type = state.type || "Unknown";
+  const level = state.level || "Intermediate";
 
-  const name = queryParams.get("name") || "Lesson";
-  const type = queryParams.get("type") || "Vocabulary";
-  const level = "Intermediate"; // Temporary static level for now
+  const displayName = name?.replace(/-/g, " ") || "Unknown";
 
   return (
-    <></>
+    <div className={styles.page}>
+      <div className={styles.header}>
+        <h1> {displayName}</h1>
+        <div className={styles.details}>
+          <span className={styles.badge}>{type}</span>
+          <span className={`${styles.badge} ${styles[level.toLowerCase()]}`}>{level}</span>
+        </div>
+      </div>
+      <div className={styles.content}>
+        <p>content hereeeeeeeeeeeee.</p>
+      </div>
+    </div>
   );
 };
 

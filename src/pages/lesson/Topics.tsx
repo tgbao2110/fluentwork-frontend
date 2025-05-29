@@ -23,7 +23,10 @@ const Topics: React.FC = () => {
   const navigate = useNavigate();
 
   const handleTopicClick = (name: string, type: string) => {
-    navigate(`/lesson?name=${name}&type=${type}`);
+    navigate(`/lesson/${name.toLowerCase().replace(/\s+/g, "-")}`, {
+  state: { name, type, level: "Intermediate" }, // fake data
+});
+
   };
 
   return (
