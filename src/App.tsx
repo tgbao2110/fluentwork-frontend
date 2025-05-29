@@ -11,6 +11,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import Flashcards from "./pages/flashcards/Flashcards";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Topics from "./pages/lesson/Topics";
+import Home from "./pages/home/Home";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
       <BrowserRouter>
         <Navbar /> {/* Navbar now has access to user context globally */}
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/test" element={<TestPage />} />
