@@ -3,7 +3,7 @@ import axios from "axios";
 import styles from "./Login.module.css";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // ✅ Ensure Toastify styles are imported
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {

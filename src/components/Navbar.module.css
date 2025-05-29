@@ -44,13 +44,6 @@
   color: #333;
 }
 
-.navProfilePic {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #610BEF;
-}
 .navDropdownTrigger {
   position: relative;
   cursor: pointer;
@@ -76,4 +69,32 @@
 
 .dropdownItem:hover {
   background-color: #f0f0f0;
+}
+
+.profileContainer {
+  position: relative;
+}
+
+.profileDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 100;
+  width: 150px;
+}
+.navRight {
+  position: relative;
+}
+
+.navProfilePic {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #610BEF;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
