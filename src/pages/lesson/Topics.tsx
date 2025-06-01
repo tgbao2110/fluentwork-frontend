@@ -1,50 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Topics.module.css";
 import TopicCard from "./TopicCard";
 
-const topics = {
-  Vocabulary: [
-    { name: "IT", image: "/images/it.jpg" },
-    { name: "Business", image: "/images/business.jpg" },
-    { name: "Finance", image: "/images/finance.jpg" },
-    { name: "Marketing", image: "/images/marketing.jpg" },
-    { name: "Legal", image: "/images/legal.jpg" },
-  ],
-  Grammar: [
-    { name: "Passive Voice", image: "/images/passive.jpg" },
-    { name: "Conditional Sentences", image: "/images/conditional.jpg" },
-    { name: "Reported Speech", image: "/images/reported.jpg" },
-    { name: "Tenses", image: "/images/tenses.jpg" },
-  ],
-};
+interface Lesson {
+  id: number;
+  title: string;
+  level: string;
+  type: string;
+  vocabulary_topic: string | null;
+  grammar_topic: string | null;
+}
 
 const Topics: React.FC = () => {
+  const [lessons, setLessons] = useState<Lesson[]>([]);
   const navigate = useNavigate();
 
-  const handleTopicClick = (name: string, type: string) => {
-    navigate(`/lesson/${name.toLowerCase().replace(/\s+/g, "-")}`, {
-  state: { name, type, level: "Intermediate" }, // fake data
-});
+  useEffect(() => {
+    fetch("http://localhost:3000/lessons/")
+      .then((res) => res.json())
+      .then((data) => setLessons(data))
+      .catch((error) => console.error("Error fetching lessons:", error));
+  }, []);
 
+  const handleTopicClick = (id: number) => {
+    navigate(`/lesson/${id}`);
   };
+
+  // Group lessons by type
+  const groupedByType: Record<string, Lesson[]> = lessons.reduce((acc, lesson) => {
+    const type = lesson.type;
+    if (!acc[type]) acc[type] = [];
+    acc[type].push(lesson);
+    return acc;
+  }, {} as Record<string, Lesson[]>);
 
   return (
     <div className={styles.pageWrapper}>
       <h1 className={styles.title}>Choose a Topic</h1>
 
-      {Object.entries(topics).map(([type, topicList]) => (
+      {Object.entries(groupedByType).map(([type, topicList]) => (
         <div key={type} className={styles.section}>
           <h2 className={styles.sectionTitle}>{type}</h2>
           <div className={styles.grid}>
-            {topicList.map((topic) => (
-              <TopicCard
-                key={topic.name}
-                title={topic.name}
-                image={topic.image}
-                onClick={() => handleTopicClick(topic.name, type)}
-              />
-            ))}
+            {topicList.map((topic) => {
+              const name = topic.vocabulary_topic || topic.grammar_topic || topic.title;
+              return (
+                <TopicCard
+                  key={topic.id}
+                  title={`${name} - ${topic.level}`}
+                  image="/defaultTopic.png"
+                  onClick={() => handleTopicClick(topic.id)}
+                />
+              );
+            })}
           </div>
         </div>
       ))}

@@ -35,7 +35,7 @@ function App() {
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/flashcards" element={<Flashcards />} />
           <Route path="/lesson" element={<Topics />} />
-          <Route path="/lesson/:name" element={<Lesson />} />
+          <Route path="/lesson/:id" element={<Lesson />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>
