@@ -1,43 +1,55 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useState, useContext, ReactNode } from "react";
+
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  fullname: string;
+  role: string;
+  picture: string;
+}
 
 interface UserContextType {
-  userName: string;
-  profilePicUrl: string;
+  user: User | null;
   isLoggedIn: boolean;
-  setUser: (name: string, picUrl: string, token: string) => void;
+  setUser: (user: User, token: string) => void;
   logout: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
-  const [profilePicUrl, setProfilePicUrl] = useState(localStorage.getItem("profilePicUrl") || "");
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("access_token")); // ✅ Check token existence
+  const [user, setUserState] = useState<User | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+    !!localStorage.getItem("access_token")
+  );
 
-  useEffect(() => {
-    localStorage.setItem("userName", userName);
-    localStorage.setItem("profilePicUrl", profilePicUrl);
-  }, [userName, profilePicUrl]);
-
-  const setUser = (name: string, picUrl: string, token: string) => {
-    setUserName(name);
-    setProfilePicUrl(picUrl);
-    localStorage.setItem("access_token", token); // ✅ Store token
+  const setUser = (userData: User, token: string) => {
+    setUserState(userData);
+    localStorage.setItem("access_token", token);
+    localStorage.setItem("userId", userData.id.toString());
+    localStorage.setItem("username", userData.username);
+    localStorage.setItem("userEmail", userData.email);
+    localStorage.setItem("fullname", userData.fullname);
+    localStorage.setItem("userRole", userData.role);
+    localStorage.setItem("picture", userData.picture);
     setIsLoggedIn(true);
   };
 
   const logout = () => {
-    setUserName("");
-    setProfilePicUrl("");
+    setUserState(null);
     setIsLoggedIn(false);
-    localStorage.removeItem("userName");
-    localStorage.removeItem("profilePicUrl");
     localStorage.removeItem("access_token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("fullname");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("picture");
   };
 
   return (
-    <UserContext.Provider value={{ userName, profilePicUrl, isLoggedIn, setUser, logout }}>
+    <UserContext.Provider value={{ user, isLoggedIn, setUser, logout }}>
       {children}
     </UserContext.Provider>
   );

@@ -1,60 +1,143 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import { useUser } from "../utils/UserContext";
 
 const Navbar: React.FC = () => {
-  const { userName, profilePicUrl, isLoggedIn } = useUser();
+  const { user, isLoggedIn, logout } = useUser();
   const [isTestsDropdownOpen, setTestsDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
+
+  // Global click listener: close dropdowns when clicking anywhere on the document.
+  useEffect(() => {
+    const handleClickAnywhere = () => {
+      setTestsDropdownOpen(false);
+      setProfileDropdownOpen(false);
+    };
+
+    document.addEventListener("click", handleClickAnywhere);
+    return () => {
+      document.removeEventListener("click", handleClickAnywhere);
+    };
+  }, []);
+
+  // When the tests dropdown trigger is clicked, stop propagation, toggle tests dropdown and close the profile dropdown.
+  const handleTestsTriggerClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    setTestsDropdownOpen((prev) => !prev);
+    setProfileDropdownOpen(false); // close profile dropdown if open
+  };
+
+  // When the profile dropdown trigger is clicked, stop propagation, toggle profile dropdown and close tests dropdown.
+  const handleProfileTriggerClick = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    setProfileDropdownOpen((prev) => !prev);
+    setTestsDropdownOpen(false); // close tests dropdown if open
+  };
+
+  // Handler for logout: stop propagation, log out and close profile dropdown.
+  const handleLogout = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    logout();
+    setProfileDropdownOpen(false);
+  };
 
   return (
     <nav className={styles.navbar}>
       <div className={styles.navLeft}>
-        <a href="/" className={styles.navLogo}>FluentWork</a>
-        <a href="/" className={styles.navLink}>Home</a>
-
+        <Link to="/" className={styles.navLogo}>
+          FluentWork
+        </Link>
+        <Link to="/" className={styles.navLink}>
+          Home
+        </Link>
         {/* Tests Dropdown */}
-        <div 
-          className={styles.navDropdownTrigger} 
-          onClick={() => setTestsDropdownOpen(!isTestsDropdownOpen)}
+        <div
+          className={styles.navDropdownTrigger}
+          onClick={handleTestsTriggerClick}
         >
           Tests
           {isTestsDropdownOpen && (
             <div className={styles.navDropdown}>
-              <a href="/test-info" className={styles.dropdownItem}>Vocabulary</a>
-              <a href="/test-info" className={styles.dropdownItem}>Grammar</a>
-              <a href="/test-info" className={styles.dropdownItem}>Mix</a>
+              <Link
+                to="/test-info"
+                className={styles.dropdownItem}
+                onClick={() => setTestsDropdownOpen(false)}
+              >
+                Vocabulary
+              </Link>
+              <Link
+                to="/test-info"
+                className={styles.dropdownItem}
+                onClick={() => setTestsDropdownOpen(false)}
+              >
+                Grammar
+              </Link>
+              <Link
+                to="/test-info"
+                className={styles.dropdownItem}
+                onClick={() => setTestsDropdownOpen(false)}
+              >
+                Mix
+              </Link>
             </div>
           )}
         </div>
-
-        <a href="/flashcards" className={styles.navLink}>Flashcards</a>
-        <a href="/results" className={styles.navLink}>Results</a>
+        <Link to="/flashcards" className={styles.navLink}>
+          Flashcards
+        </Link>
+        <Link to="/results" className={styles.navLink}>
+          Results
+        </Link>
       </div>
-
       <div className={styles.navRight}>
-        {isLoggedIn ? (
-          // Profile Dropdown
+        {isLoggedIn && user ? (
           <div className={styles.profileContainer}>
-            <img 
-              className={styles.navProfilePic} 
-              src={profilePicUrl} 
-              alt="Profile" 
-              onClick={() => setProfileDropdownOpen(!isProfileDropdownOpen)}
+            <img
+              className={styles.navProfilePic}
+              src={user.picture || "/defaultProfile.png"}
+              alt="Profile"
+              onClick={handleProfileTriggerClick}
             />
             {isProfileDropdownOpen && (
               <div className={styles.profileDropdown}>
-                <a href="/profile" className={styles.dropdownItem}>Profile</a>
-                <a href="/settings" className={styles.dropdownItem}>Settings</a>
-                <a href="/logout" className={styles.dropdownItem}>Logout</a>
+                <Link
+                  to="/dashboard"
+                  className={`${styles.dropdownItem} ${styles.dropdownUserName}`}
+                  onClick={() => setProfileDropdownOpen(false)}
+                >
+                  {user.username}
+                </Link>
+                <Link
+                  to="/settings"
+                  className={styles.dropdownItem}
+                  onClick={() => setProfileDropdownOpen(false)}
+                >
+                  Settings
+                </Link>
+                <span
+                  className={`${styles.dropdownItem} ${styles.logoutItem}`}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </span>
               </div>
             )}
           </div>
         ) : (
-          // Login & Register Buttons
           <div className={styles.authButtons}>
-            <a href="/login" className={styles.loginButton}>Log In</a>
-            <a href="/register" className={styles.registerButton}>Register</a>
+            <Link to="/login" className={styles.loginButton}>
+              Log In
+            </Link>
+            <Link to="/register" className={styles.registerButton}>
+              Register
+            </Link>
           </div>
         )}
       </div>

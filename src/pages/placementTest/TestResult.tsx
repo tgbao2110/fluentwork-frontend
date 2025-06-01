@@ -1,6 +1,5 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import Navbar from "../../components/Navbar";
 import styles from "./TestResult.module.css";
 
 interface TestResultData {
@@ -13,7 +12,9 @@ const TestResultPage: React.FC = () => {
   const location = useLocation();
 
   // Attempt to retrieve result data passed via navigation state.
-  const resultDataFromNavigation = location.state?.result as TestResultData | undefined;
+  const resultDataFromNavigation = location.state?.result as
+    | TestResultData
+    | undefined;
 
   // Create fake data if no result data is provided.
   const fakeData: TestResultData = {
@@ -28,22 +29,23 @@ const TestResultPage: React.FC = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <div className={styles.resultCard}>
-        <h1 className={styles.resultTitle}>Test Results</h1>
-        {usingFakeData && (
-          <p style={{ color: "red" }}>
-            No result data provided. Displaying fake data.
-          </p>
-        )}
-        <p className={styles.resultMessage}>{resultData.message}</p>
+      <div className={styles.leftSection}>
+        <h3 className={styles.congratulations}>Congratulations! Your score is:</h3>
+        <div className={styles.resultNumber}>
+          <span className={styles.resultNumberCircle}>{resultData.score}</span>
+        </div>
         <p className={styles.resultLevel}>
-          Level Assigned: <strong>{resultData.level}</strong>
-        </p>
-        <p className={styles.resultScore}>
-          Score: <strong>{resultData.score}</strong>
+          Your current Level is: <strong>{resultData.level}</strong>
         </p>
       </div>
-    </div>
+
+      <div className={styles.rightSection}>
+        <div className={styles.resultCard}>
+          <h1 className={styles.resultTitle}>What’s Next?</h1>
+          <p>Your personalized roadmap has been created to match your level.</p>
+        </div>
+        </div>
+      </div>
   );
 };
 

@@ -69,6 +69,7 @@
 
 .dropdownItem:hover {
   background-color: #f0f0f0;
+  border-radius: 5px;
 }
 
 .profileContainer {
@@ -97,4 +98,28 @@
   border-radius: 50%;
   object-fit: cover;
   display: block;
+}
+
+/* Existing styles remain as-is */
+
+/* Highlight for username in the dropdown */
+.dropdownUserName {
+  color: #610BEF; /* Change this to your desired highlight color */
+  font-weight: 700;
+}
+
+/* Style the logout element to match other dropdown items */
+.logoutItem {
+  cursor: pointer;
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: black;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* On hover, change logout style */
+.logoutItem:hover {
+  background-color: red;
+  color: white;
 }
