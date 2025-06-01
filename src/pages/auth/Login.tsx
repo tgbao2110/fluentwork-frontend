@@ -54,7 +54,6 @@ const Login: React.FC = () => {
   return (
     <div className={styles.background}>
       <ToastContainer position="top-right" autoClose={3000} />{" "}
-      {/* ✅ Always add this */}
       <div className={styles.loginModal}>
         <div className={styles.loginFormContainer}>
           <form className={styles.loginForm} onSubmit={handleLogin}>

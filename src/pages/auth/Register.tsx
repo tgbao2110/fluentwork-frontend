@@ -26,23 +26,34 @@ const Register: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    try {
-      const response = await axios.post("http://localhost:3000/auth/register", formData);
-      toast.success("User registered successfully!");
-      console.log("Registration successful:", response.data);
-      navigate("/login");
-    } catch (error: any) {
-      if (error.response) {
-        toast.error(error.response.data.message[0] || "Registration failed");
-      } else {
-        toast.error(error.message || "An error occurred");
-      }
+  try {
+    // Register the user
+    const response = await axios.post("http://localhost:3000/auth/register", formData);
+    toast.success("User registered successfully!");
+    console.log("Registration successful:", response.data);
+
+    // Placement test data
+    const placementTestData = {
+      duration: "15m",
+      test_date: new Date().toISOString(),
+      total_correct_answers: 0,
+      total_incorrect_answers: 0,
+    };
+
+    // Create placement test
+    await axios.post("http://localhost:3000/tests/placement", placementTestData);
+    navigate("/login");
+  } catch (error: any) {
+    if (error.response) {
+      toast.error(error.response.data.message[0] || "Registration failed");
+    } else {
+      toast.error(error.message || "An error occurred");
     }
-  };
-
+  }
+};
   return (
     <div className={styles.background}>
       <div className={styles.registerModal}>

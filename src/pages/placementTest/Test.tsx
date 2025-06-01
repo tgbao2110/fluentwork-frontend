@@ -1,63 +1,121 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Test.module.css";
-import Navbar from "../../components/Navbar";
+import Clock from "../../components/Clock";  // Adjust the path as needed
+import api from "../../utils/api";              // Import the API instance
 
-type Question = {
+interface Option {
   id: number;
-  text: string;
-  choices: string[];
-};
+  option_text: string;
+  is_correct: boolean;
+}
 
-const questions: Question[] = [
-  {
-    id: 1,
-    text: "Question oneeeeee?",
-    choices: ["aksd", "fdgdfgdfgdf", "asdasd asdasd", "assssssdsd"],
-  },
-  {
-    id: 2,
-    text: "Which planet is known as the Red Planet?",
-    choices: ["Earth", "Mars", "Venus"],
-  },
-  {
-    id: 3,
-    text: "What is the largest ocean?",
-    choices: ["Atlantic", "Indian", "Arctic", "Southern", "Pacific"],
-  },
-];
+interface Question {
+  id: number;
+  type: string;
+  vocabulary_topic: string | null;
+  grammar_topic: string | null;
+  level: string;
+  question_text: string;
+  explanation: string;
+  options: Option[];
+}
 
-const totalTestDuration = 60;
+interface TestQuestion {
+  id: number;
+  question: Question;
+}
+
+interface Duration {
+  minutes: number;
+}
+
+interface TestTemplate {
+  id: number;
+  title: string;
+  description: string;
+  type: string;
+  vocabulary_topic: string[];
+  grammar_topic: string[];
+  level: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+interface TestData {
+  id: number;
+  testTemplate: TestTemplate;
+  testMistakes: any[];
+  testQuestions: TestQuestion[];
+  score: number;
+  level: string;
+  duration: Duration;
+  test_date: string;
+  total_correct_answer: number;
+  total_incorrect_answer: number;
+  is_submitted: boolean;
+}
 
 const TestPage: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Always initialize testData from the router state.
+  const initialTestData: TestData | null = location.state?.testData || null;
+  const [testData] = useState<TestData | null>(initialTestData);
+
+  // Initialize our other hooks unconditionally.
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(
-    Array(questions.length).fill(null)
+    testData ? Array(testData.testQuestions.length).fill(null) : []
   );
-  const [timeLeft, setTimeLeft] = useState(totalTestDuration);
+  const [timeLeft, setTimeLeft] = useState(
+    testData ? testData.duration.minutes * 60 : 0
+  );
 
-  const allAnswered = answers.every((answer) => answer !== null);
+  // Always run this effect to redirect if no testData is present.
+  useEffect(() => {
+    if (!testData) {
+      navigate("/");
+    }
+  }, [testData, navigate]);
 
+  // Timer effect: decrement time left every second.
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
           clearInterval(timer);
           return 0;
         }
-        return prev - 1;
+        return prevTime - 1;
       });
     }, 1000);
     return () => clearInterval(timer);
   }, []);
 
-  const handleSelectChoice = (index: number) => {
-    const updated = [...answers];
-    updated[currentQuestionIndex] = index;
-    setAnswers(updated);
+  // Conditionally render a loading state only after all hooks have been called.
+  if (!testData || answers.length === 0) {
+    return (
+      <div className={styles.pageWrapper}>
+        <div>Loading test details...</div>
+      </div>
+    );
+  }
+
+  const { testQuestions } = testData;
+  const currentQuestion = testQuestions[currentQuestionIndex].question;
+
+  // Event handlers.
+  const handleSelectChoice = (selectedIndex: number) => {
+    const updatedAnswers = [...answers];
+    updatedAnswers[currentQuestionIndex] = selectedIndex;
+    setAnswers(updatedAnswers);
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < testQuestions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
   };
@@ -67,59 +125,76 @@ const TestPage: React.FC = () => {
       setCurrentQuestionIndex((prev) => prev - 1);
     }
   };
-
-  const handleFinish = () => {
-    alert("Test submitted! You can now process the answers here.");
+  
+const handleFinish = () => {
+  // Build the payload by mapping each testQuestion and its selected answer.
+  const payload = {
+    answers: testData.testQuestions.map((testQuestion, index) => ({
+      testQuestionId: testQuestion.id,
+      selectedOptionId:
+        testQuestion.question.options[answers[index] as number].id,
+    })),
   };
 
-  const currentQuestion = questions[currentQuestionIndex];
-  const selectedChoice = answers[currentQuestionIndex];
+  // Submit the payload using the API instance and then navigate to the results page
+  api
+    .post("/tests/submit-placement", payload)
+    .then((response) => {
+      console.log("Submission response:", response.data);
+      // Navigate to the TestResultPage with the result data
+      navigate("/test-result", { state: { result: response.data } });
+    })
+    .catch((error) => {
+      console.error("Error submitting test:", error);
+    });
+};
+
+  const options = currentQuestion.options;
 
   return (
-      <div className={styles.pageWrapper}>
-        <div className={styles.testContainer}>
-          <div className={styles.questionBox}>
-            <div className={styles.timerCentered}>Time left: {timeLeft}s</div>
-            <h2>{currentQuestion.text}</h2>
-            <ul className={styles.choicesList}>
-              {currentQuestion.choices.map((choice, index) => (
-                <li
-                  key={index}
-                  className={`${styles.choice} ${
-                    selectedChoice === index ? styles.selected : ""
-                  }`}
-                  onClick={() => handleSelectChoice(index)}
-                >
-                  {choice}
-                </li>
-              ))}
-            </ul>
-            <div className={styles.navigationButtons}>
-              <button
-                onClick={handleBack}
-                disabled={currentQuestionIndex === 0}
+    <div className={styles.pageWrapper}>
+      <div className={styles.testContainer}>
+        <div className={styles.questionBox}>
+          <div className={styles.timerCentered}>
+            Time left: <Clock seconds={timeLeft} />
+          </div>
+          <h2>{currentQuestion.question_text}</h2>
+          <ul className={styles.choicesList}>
+            {options.map((option, index) => (
+              <li
+                key={option.id}
+                className={`${styles.choice} ${
+                  answers[currentQuestionIndex] === index ? styles.selected : ""
+                }`}
+                onClick={() => handleSelectChoice(index)}
               >
-                Back
-              </button>
-              <button
-                onClick={handleNext}
-                disabled={currentQuestionIndex === questions.length - 1}
-              >
-                Next
-              </button>
-            </div>
+                {option.option_text}
+              </li>
+            ))}
+          </ul>
+          <div className={styles.navigationButtons}>
+            <button onClick={handleBack} disabled={currentQuestionIndex === 0}>
+              Back
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={currentQuestionIndex === testQuestions.length - 1}
+            >
+              Next
+            </button>
           </div>
         </div>
-        <div className={styles.finishButtonWrapper}>
-          <button
-            className={styles.finishButton}
-            onClick={handleFinish}
-            disabled={!allAnswered}
-          >
-            Finish Test
-          </button>
-        </div>
       </div>
+      <div className={styles.finishButtonWrapper}>
+        <button
+          className={styles.finishButton}
+          onClick={handleFinish}
+          disabled={answers.some((answer) => answer === null)}
+        >
+          Finish Test
+        </button>
+      </div>
+    </div>
   );
 };
 

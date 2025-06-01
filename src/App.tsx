@@ -14,6 +14,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Topics from "./pages/lesson/Topics";
 import Home from "./pages/home/Home";
 import Lesson from "./pages/lesson/Lesson";
+import TestResultPage from "./pages/placementTest/TestResult";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/test-info" element={<TestInfoPage />} />
+          <Route path="/test-result" element={<TestResultPage />} />
           <Route path="/results" element={<Results />} />
           <Route path="/answer" element={<Answer />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
