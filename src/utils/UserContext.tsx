@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
 
 interface User {
   id: number;
@@ -19,10 +19,22 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUserState] = useState<User | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
-    !!localStorage.getItem("access_token")
-  );
+  // Load user from localStorage during initialization
+  const [user, setUserState] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem("access_token"));
+
+  useEffect(() => {
+    // Keep user state synced with localStorage whenever it changes
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [user]);
 
   const setUser = (userData: User, token: string) => {
     setUserState(userData);

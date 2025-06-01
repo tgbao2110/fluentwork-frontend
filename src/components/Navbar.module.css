@@ -45,8 +45,16 @@
 }
 
 .navDropdownTrigger {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
   position: relative;
   cursor: pointer;
+}
+
+.navDropdownTrigger:hover {
+  color: #610BEF;
 }
 
 .navDropdown {
@@ -58,6 +66,10 @@
   padding: 10px;
   border-radius: 5px;
   z-index: 100;
+}
+
+.navDropdown:hover {
+  color: #610BEF;
 }
 
 .dropdownItem {
@@ -98,6 +110,7 @@
   border-radius: 50%;
   object-fit: cover;
   display: block;
+  cursor: pointer;
 }
 
 /* Existing styles remain as-is */
@@ -122,4 +135,26 @@
 .logoutItem:hover {
   background-color: red;
   color: white;
+}
+
+.authButtons{
+  display: flex;
+  gap: 10px;
+}
+
+.registerButton,
+.loginButton{
+  color: #610BEF;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.registerButton:hover,
+.loginButton:hover{
+  background-color: #f0f0f0;
+  border-radius: 5px;
 }
