@@ -38,19 +38,29 @@ const Login: React.FC = () => {
       const accessToken = loginResponse.data.access_token;
       localStorage.setItem("access_token", accessToken);
 
-      // Fetch the user profile using the token; thanks to your axios interceptor, the token is attached.
-      const profileResponse = await api.get("http://localhost:3000/users/profile");
+      // Fetch the learner profile
+      const profileResponse = await api.get("http://localhost:3000/learner-profiles/me");
 
-      // Destructure the profile details from the API response
-      const { id, username, email, fullname, role, picture } = profileResponse.data;
+      // Extract user and additional learner info
+      const { id, user, level, total_lessons_completed, hasCreatedPlacement, hasSubmittedPlacement } = profileResponse.data;
 
       // Create the User object that matches your context's interface
-      const userObj = { id, username, email, fullname, role, picture };
+      const userObj = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        fullname: user.fullname,
+        role: user.role,
+        picture: user.picture || "",
+        level,
+        totalLessonsCompleted: total_lessons_completed,
+        hasCreatedPlacement,
+        hasSubmittedPlacement,
+      };
 
       // Update the global state and store extra info via context
       setUser(userObj, accessToken);
 
-      // Optionally store additional user details if needed (already done in context)
       // Redirect to dashboard or any other page:
       navigate("/dashboard");
     } catch (error: any) {
