@@ -49,7 +49,7 @@ const Topics: React.FC = () => {
                 <TopicCard
                   key={topic.id}
                   title={`${name} - ${topic.level}`}
-                  image="/defaultTopic.png"
+                  image="/lesson.png"
                   onClick={() => handleTopicClick(topic.id)}
                 />
               );
