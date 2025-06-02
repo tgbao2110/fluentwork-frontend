@@ -1,31 +1,34 @@
-import React, { useState } from "react";
-import styles from "./Flashcard.module.css";
-import Flashcard from "./Flashcard";
-import Navbar from "../../components/Navbar";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./Flashcards.module.css";
+import TopicCardHorizontal from "../lesson/components/TopicCardHorizontal";
 
-const vocabList = [
-  { vocab: "Abcd", meaning: "Nghĩa" },
-  { vocab: "Efghiasd", meaning: "Là" },
-  { vocab: "Yo12sd", meaning: "Gì" },
+const topics = [
+  { label: "All", value: "", image: "/images/flashcard.png" },
+  { label: "Business", value: "Business", image: "/images/flashcard.png" },
+  { label: "Information Technology", value: "Information%20Technology", image: "/images/flashcard.png" },
+  { label: "Finance", value: "Finance", image: "/images/flashcard.png" },
 ];
 
 const Flashcards: React.FC = () => {
-  const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
 
-  const handleNext = () => {
-    setIndex((prev) => (prev < vocabList.length - 1 ? prev + 1 : prev));
-  };
-
-  const handleBack = () => {
-    setIndex((prev) => (prev > 0 ? prev - 1 : prev));
+  const handleClick = (value: string) => {
+    navigate(`/flashcard?topic=${value}`);
   };
 
   return (
-    <div className={styles.flashcardWrapper}>
-      <Flashcard vocab={vocabList[index].vocab} meaning={vocabList[index].meaning} />
-      <div className={styles.navigation}>
-        <button onClick={handleBack} disabled={index === 0}>Back</button>
-        <button onClick={handleNext} disabled={index === vocabList.length - 1}>Next</button>
+    <div className={styles.flashcardsWrapper}>
+      <h1 className={styles.title}>Choose a Flashcard Topic</h1>
+      <div className={styles.cardGroup}>
+        {topics.map((topic) => (
+          <TopicCardHorizontal 
+            key={topic.label}
+            title={topic.label}
+            image={topic.image}
+            onClick={() => handleClick(topic.value)}
+          />
+        ))}
       </div>
     </div>
   );

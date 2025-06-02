@@ -10,6 +10,7 @@ import Answer from "./pages/placementTest/Answer";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ChangePassword from "./pages/auth/ChangePassword";
 import Flashcards from "./pages/flashcards/Flashcards";
+import Flashcard from "./pages/flashcards/Flashcard";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Topics from "./pages/lesson/Topics";
 import Home from "./pages/home/Home";
@@ -37,6 +38,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
           <Route path="/flashcards" element={<Flashcards />} />
+          <Route path="/flashcard" element={<Flashcard />} />
           <Route path="/lesson" element={<Topics />} />
           <Route path="/lesson/:id" element={<Lesson />} />
           <Route path="/learning-path" element={<LearningPathPage />} />

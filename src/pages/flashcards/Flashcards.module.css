@@ -1,0 +1,32 @@
+.flashcardsWrapper {
+  text-align: center;
+  padding: 40px;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.cardGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 10px;
+}
+
+.topicButton {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #610bef;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.topicButton:hover {
+  background-color: #4a0ac1;
+}

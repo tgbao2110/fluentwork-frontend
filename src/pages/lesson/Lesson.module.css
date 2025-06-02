@@ -47,3 +47,17 @@
 .item:hover {
   background-color: #dcdcff;
 }
+
+.parent_container_iframe {
+    width: 100%;
+}
+
+.video_container_iframe {
+    height: auto !important;
+    padding-bottom: 0 !important;
+}
+
+.video_iframe {
+    position: relative !important;
+    min-height: 50vh;
+}

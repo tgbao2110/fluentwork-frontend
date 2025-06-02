@@ -1,20 +1,54 @@
 .flashcardWrapper {
+  position: relative;
+  text-align: center;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px;
 }
 
-.title {
-  font-size: 26px;
-  font-weight: bold;
-  margin-bottom: 50px;
+/* Close button (X) in the top-right corner */
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Flex container for left icon, flashcard, and right icon */
+.navigationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+/* Navigation icon styling (no background, border, or text) */
+.navIcon {
+  font-size: 5.5rem;
   color: #610bef;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.navIcon:hover {
+  color: #4a0ac1;
 }
 
+/* Disabled state for icons */
+.disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Flashcard styles (unchanged) */
 .card {
-  width: 450px;
-  height: 300px;
+  width: 550px;
+  height: 400px;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -31,7 +65,8 @@
   transform: rotateY(180deg);
 }
 
-.cardFront, .cardBack {
+.cardFront,
+.cardBack {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -39,10 +74,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
+  font-size: 35px;
   font-weight: bold;
   backface-visibility: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cardBack{
+  font-family:Verdana, Geneva, Tahoma, sans-serif  ;
 }
 
 .cardFront {
@@ -54,27 +93,4 @@
   background-color: #610bef;
   color: white;
   transform: rotateY(180deg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.navigation {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-}
-
-.navigation button {
-  padding: 8px 16px;
-  background-color: #610bef;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.navigation button:disabled {
-  background-color: #ccc;
 }
