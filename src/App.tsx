@@ -16,6 +16,7 @@ import Home from "./pages/home/Home";
 import Lesson from "./pages/lesson/Lesson";
 import TestResultPage from "./pages/placementTest/TestResult";
 import Placement from "./pages/placementTest/Placement";
+import LearningPathPage from "./pages/lesson/LearningPath";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/flashcards" element={<Flashcards />} />
           <Route path="/lesson" element={<Topics />} />
           <Route path="/lesson/:id" element={<Lesson />} />
+          <Route path="/learning-path" element={<LearningPathPage />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Topics.module.css";
-import TopicCard from "./TopicCard";
+import TopicCard from "./components/TopicCard";
 
 interface Lesson {
   id: number;

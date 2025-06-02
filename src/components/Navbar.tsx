@@ -54,8 +54,14 @@ const Navbar: React.FC = () => {
         <Link to="/" className={styles.navLogo}>
           FluentWork
         </Link>
-        <Link to="/" className={styles.navLink}>
-          Home
+        <Link to="/learning-path" className={styles.navLink}>
+          Learning Path
+        </Link>
+        <Link to="/lesson" className={styles.navLink}>
+          Lessons
+        </Link>
+        <Link to="/flashcards" className={styles.navLink}>
+          Flashcards
         </Link>
         {/* Tests Dropdown */}
         <div
@@ -89,12 +95,6 @@ const Navbar: React.FC = () => {
             </div>
           )}
         </div>
-        <Link to="/flashcards" className={styles.navLink}>
-          Flashcards
-        </Link>
-        <Link to="/results" className={styles.navLink}>
-          Results
-        </Link>
       </div>
       <div className={styles.navRight}>
         {isLoggedIn && user ? (
@@ -115,11 +115,11 @@ const Navbar: React.FC = () => {
                   {user.username}
                 </Link>
                 <Link
-                  to="/settings"
+                  to="/results"
                   className={styles.dropdownItem}
                   onClick={() => setProfileDropdownOpen(false)}
                 >
-                  Settings
+                  Your Results
                 </Link>
                 <span
                   className={`${styles.dropdownItem} ${styles.logoutItem}`}

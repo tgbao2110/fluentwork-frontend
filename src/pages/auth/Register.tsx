@@ -5,6 +5,7 @@ import styles from "./Register.module.css";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import api from "../../utils/api";
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -34,17 +35,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     const response = await axios.post("http://localhost:3000/auth/register", formData);
     toast.success("User registered successfully!");
     console.log("Registration successful:", response.data);
-
-    // Placement test data
-    const placementTestData = {
-      duration: "15m",
-      test_date: new Date().toISOString(),
-      total_correct_answers: 0,
-      total_incorrect_answers: 0,
-    };
-
-    // Create placement test
-    await axios.post("http://localhost:3000/tests/placement", placementTestData);
+    
     navigate("/login");
   } catch (error: any) {
     if (error.response) {
