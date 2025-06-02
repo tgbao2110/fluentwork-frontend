@@ -42,9 +42,16 @@ const Login: React.FC = () => {
       const profileResponse = await api.get("http://localhost:3000/learner-profiles/me");
 
       // Extract user and additional learner info
-      const { id, user, level, total_lessons_completed, hasCreatedPlacement, hasSubmittedPlacement } = profileResponse.data;
+      const {
+        id,
+        user,
+        level,
+        total_lessons_completed,
+        hasCreatedPlacement,
+        hasSubmittedPlacement,
+      } = profileResponse.data;
 
-      // Create the User object that matches your context's interface
+      // Create the User object matching your context's interface
       const userObj = {
         id: user.id,
         username: user.username,
@@ -61,8 +68,12 @@ const Login: React.FC = () => {
       // Update the global state and store extra info via context
       setUser(userObj, accessToken);
 
-      // Redirect to dashboard or any other page:
-      navigate("/dashboard");
+      // Conditional navigation: if hasSubmittedPlacement is false, go to /placement; otherwise, go to /dashboard.
+      if (!userObj.hasSubmittedPlacement) {
+        navigate("/placement");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error: any) {
       console.error("Login error:", error);
       let errorMessage = "Login failed";

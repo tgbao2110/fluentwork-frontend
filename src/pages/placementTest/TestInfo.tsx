@@ -68,7 +68,7 @@ const TestInfoPage: React.FC = () => {
       .then((response) => {
         const data = response.data;
         if (data && data.length > 0) {
-          setTestData(data[0]); // Use the first test in the response.
+          setTestData(data[0]);
         }
       })
       .catch((error) =>
@@ -90,11 +90,10 @@ const TestInfoPage: React.FC = () => {
     );
   }
 
-  // Destructure properties for display.
   const { testTemplate, testQuestions, duration } = testData;
   const { title, description } = testTemplate;
   const numberOfQuestions = testQuestions.length;
-  const timeLimit = duration.minutes * 60; // Convert minutes to seconds
+  const timeLimit = duration.minutes * 60;
 
   return (
     <div className={styles.testInfoWrapper}>
