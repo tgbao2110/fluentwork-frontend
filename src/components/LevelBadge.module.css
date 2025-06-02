@@ -1,0 +1,25 @@
+.badge {
+  font-family: Poppins, sans-serif;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+  text-transform: capitalize;
+  width: fit-content;
+}
+
+.beginner {
+  background-color: #e3f7e7;
+  color: #2e7d32;
+}
+
+.intermediate {
+  background-color: #fff8e1;
+  color: #f9a825;
+}
+
+.advanced {
+  background-color: #fdecea;
+  color: #d32f2f;
+}

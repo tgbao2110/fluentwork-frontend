@@ -2,11 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import { useUser } from "../utils/UserContext";
+import LevelBadge from "../components/LevelBadge";
 
 const Navbar: React.FC = () => {
   const { user, isLoggedIn, logout } = useUser();
   const [isTestsDropdownOpen, setTestsDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const isValidLevel = (
+    level: string
+  ): level is "Beginner" | "Intermediate" | "Advanced" => {
+    return ["Beginner", "Intermediate", "Advanced"].includes(level);
+  };
 
   // Global click listener: close dropdowns when clicking anywhere on the document.
   useEffect(() => {
@@ -40,9 +46,7 @@ const Navbar: React.FC = () => {
   };
 
   // Handler for logout: stop propagation, log out and close profile dropdown.
-  const handleLogout = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
+  const handleLogout = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
     logout();
     setProfileDropdownOpen(false);
@@ -112,8 +116,14 @@ const Navbar: React.FC = () => {
                   className={`${styles.dropdownItem} ${styles.dropdownUserName}`}
                   onClick={() => setProfileDropdownOpen(false)}
                 >
-                  {user.username}
+                  <div className={styles.userInfoWrapper}>
+                    <span>{user.username}</span>
+                    {isValidLevel(user.level) && (
+                      <LevelBadge level={user.level} />
+                    )}
+                  </div>
                 </Link>
+
                 <Link
                   to="/results"
                   className={styles.dropdownItem}

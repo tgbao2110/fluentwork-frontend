@@ -1,101 +1,93 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Test.module.css";
-import Clock from "../../components/Clock";  // Adjust the path as needed
-import api from "../../utils/api";              // Import the API instance
+import Clock from "../../components/Clock";
+import api from "../../utils/api";
+import { useUser } from "../../utils/UserContext";
 
 interface Option {
   id: number;
-  option_text: string;
-  is_correct: boolean;
+  text: string;
+  isCorrect: boolean;
 }
 
 interface Question {
-  id: number;
-  type: string;
-  vocabulary_topic: string | null;
-  grammar_topic: string | null;
-  level: string;
-  question_text: string;
+  questionId: number;
+  questionText: string;
   explanation: string;
   options: Option[];
-}
-
-interface TestQuestion {
-  id: number;
-  question: Question;
+  selectedOptionId: number | null;
+  isCorrect: boolean | null;
 }
 
 interface Duration {
   minutes: number;
 }
 
-interface TestTemplate {
-  id: number;
-  title: string;
-  description: string;
-  type: string;
-  vocabulary_topic: string[];
-  grammar_topic: string[];
-  level: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
 interface TestData {
-  id: number;
-  testTemplate: TestTemplate;
-  testMistakes: any[];
-  testQuestions: TestQuestion[];
+  testId: number;
+  testDate: string;
   score: number;
+  isSubmitted: boolean;
   level: string;
   duration: Duration;
-  test_date: string;
-  total_correct_answer: number;
-  total_incorrect_answer: number;
-  is_submitted: boolean;
+  questions: Question[];
 }
 
 const TestPage: React.FC = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-
-  // Always initialize testData from the router state.
-  const initialTestData: TestData | null = location.state?.testData || null;
-  const [testData] = useState<TestData | null>(initialTestData);
-
-  // Initialize our other hooks unconditionally.
+  const { user } = useUser(); // Get user data from context
+  const [testData, setTestData] = useState<TestData | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(
-    testData ? Array(testData.testQuestions.length).fill(null) : []
-  );
-  const [timeLeft, setTimeLeft] = useState(
-    testData ? testData.duration.minutes * 60 : 0
-  );
+  const [answers, setAnswers] = useState<(number | null)[]>([]);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [isDoingPlacement, setIsDoingPlacement] = useState<boolean>(false);
 
-  // Always run this effect to redirect if no testData is present.
+  // Fetch test data when the page loads
   useEffect(() => {
-    if (!testData) {
+    if (!user) {
+      console.error("User not found, redirecting...");
       navigate("/");
+      return;
     }
-  }, [testData, navigate]);
 
-  // Timer effect: decrement time left every second.
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timer);
-          return 0;
+    setIsDoingPlacement(!user.hasSubmittedPlacement); // Set before submission
+
+    const endpoint = user.hasSubmittedPlacement ? "/tests/me" : "/tests/placement/me";
+
+    api.get(endpoint)
+      .then((response) => {
+        console.log("API Response:", response.data);
+
+        if (!response.data || !response.data.questions) {
+          throw new Error("API returned invalid test data.");
         }
-        return prevTime - 1;
+
+        setTestData(response.data);
+        setAnswers(Array(response.data.questions.length).fill(null));
+        setTimeLeft(response.data.duration.minutes * 60);
+      })
+      .catch((error) => {
+        console.error("Error fetching test data:", error);
       });
-    }, 1000);
-    return () => clearInterval(timer);
   }, []);
 
-  // Conditionally render a loading state only after all hooks have been called.
+  // Countdown timer
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [timeLeft]);
+
   if (!testData || answers.length === 0) {
     return (
       <div className={styles.pageWrapper}>
@@ -104,10 +96,16 @@ const TestPage: React.FC = () => {
     );
   }
 
-  const { testQuestions } = testData;
-  const currentQuestion = testQuestions[currentQuestionIndex].question;
+  const currentQuestion = testData.questions[currentQuestionIndex];
 
-  // Event handlers.
+  if (!currentQuestion || !currentQuestion.options || currentQuestion.options.length === 0) {
+    return (
+      <div className={styles.pageWrapper}>
+        <div>Error: No options available for this question.</div>
+      </div>
+    );
+  }
+
   const handleSelectChoice = (selectedIndex: number) => {
     const updatedAnswers = [...answers];
     updatedAnswers[currentQuestionIndex] = selectedIndex;
@@ -115,7 +113,7 @@ const TestPage: React.FC = () => {
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex < testQuestions.length - 1) {
+    if (currentQuestionIndex < testData.questions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
   };
@@ -125,31 +123,30 @@ const TestPage: React.FC = () => {
       setCurrentQuestionIndex((prev) => prev - 1);
     }
   };
-  
-const handleFinish = () => {
-  // Build the payload by mapping each testQuestion and its selected answer.
-  const payload = {
-    answers: testData.testQuestions.map((testQuestion, index) => ({
-      testQuestionId: testQuestion.id,
-      selectedOptionId:
-        testQuestion.question.options[answers[index] as number].id,
-    })),
-  };
 
-  // Submit the payload using the API instance and then navigate to the results page
-  api
-    .post("/tests/submit-placement", payload)
-    .then((response) => {
+  const handleFinish = async () => {
+    if (!testData || !user) return;
+
+    const endpoint = user.hasSubmittedPlacement ? "/tests/submit" : "/tests/submit-placement";
+
+    const payload = {
+      answers: testData.questions.map((question, index) => ({
+        testQuestionId: question.questionId,
+        selectedOptionId: question.options[answers[index] as number]?.id,
+      })),
+    };
+
+    console.log("Submission payload:", payload);
+    try {
+      const response = await api.post(endpoint, payload);
       console.log("Submission response:", response.data);
-      // Navigate to the TestResultPage with the result data
-      navigate("/test-result", { state: { result: response.data } });
-    })
-    .catch((error) => {
-      console.error("Error submitting test:", error);
-    });
-};
 
-  const options = currentQuestion.options;
+      // Navigate based on `isDoingPlacement`, regardless of `hasSubmittedPlacement`
+      navigate(isDoingPlacement ? "/placement-test-result" : "/test-result", { state: { result: response.data } });
+    } catch (error) {
+      console.error("Error submitting test:", error);
+    }
+  };
 
   return (
     <div className={styles.pageWrapper}>
@@ -158,9 +155,9 @@ const handleFinish = () => {
           <div className={styles.timerCentered}>
             Time left: <Clock seconds={timeLeft} />
           </div>
-          <h2>{currentQuestion.question_text}</h2>
+          <h2>{currentQuestion.questionText}</h2>
           <ul className={styles.choicesList}>
-            {options.map((option, index) => (
+            {currentQuestion.options.map((option, index) => (
               <li
                 key={option.id}
                 className={`${styles.choice} ${
@@ -168,7 +165,7 @@ const handleFinish = () => {
                 }`}
                 onClick={() => handleSelectChoice(index)}
               >
-                {option.option_text}
+                {option.text}
               </li>
             ))}
           </ul>
@@ -178,7 +175,7 @@ const handleFinish = () => {
             </button>
             <button
               onClick={handleNext}
-              disabled={currentQuestionIndex === testQuestions.length - 1}
+              disabled={currentQuestionIndex === testData.questions.length - 1}
             >
               Next
             </button>

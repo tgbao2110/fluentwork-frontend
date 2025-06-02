@@ -47,7 +47,7 @@
 }
 
 .resultLevel {
-  font-size: 22px;
+  font-size: 18px;
   margin: 0;
 }
 
@@ -114,4 +114,49 @@
   border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+}
+
+.topicSelector {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.topics {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.topicTitle{
+  font-size: 18px;
+}
+.topicButtons{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.topicButton {
+  font-family: Poppins, sans-serif;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+
+.topicButton:hover {
+  background-color: #ddd;
+}
+
+.topicButton.selected {
+  background-color: #610bef;
+  color: white;
+  border-color: #610bef;
 }

@@ -1,3 +1,4 @@
+// App.tsx
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { UserProvider } from "./utils/UserContext";
 import Navbar from "./components/Navbar";
@@ -15,7 +16,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Topics from "./pages/lesson/Topics";
 import Home from "./pages/home/Home";
 import Lesson from "./pages/lesson/Lesson";
-import TestResultPage from "./pages/placementTest/TestResult";
+import PlacementTestResultPage from "./pages/placementTest/PlacementTestResult";
 import Placement from "./pages/placementTest/Placement";
 import LearningPathPage from "./pages/lesson/LearningPath";
 
@@ -31,8 +32,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/placement" element={<Placement />} />
           <Route path="/test" element={<TestPage />} />
-          <Route path="/test-info" element={<TestInfoPage />} />
-          <Route path="/test-result" element={<TestResultPage />} />
+          <Route path="/test-info" element={<TestInfoPage/>} />
+          <Route path="/placement-test-result" element={<PlacementTestResultPage />} />
           <Route path="/results" element={<Results />} />
           <Route path="/answer" element={<Answer />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

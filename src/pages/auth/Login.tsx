@@ -68,16 +68,7 @@ const Login: React.FC = () => {
       // Update the global state and store extra info via context
       setUser(userObj, accessToken);
 
-      //if user hasn't created placement test, create one
-      if (!userObj.hasCreatedPlacement) {
-        const placementTestData = {
-          duration: "15m",
-          test_date: new Date().toISOString(),
-          total_correct_answers: 0,
-          total_incorrect_answers: 0,
-        };
-        await api.post("http://localhost:3000/tests/placement", placementTestData);
-      }
+
 
       // Conditional navigation: if hasSubmittedPlacement is false, go to /placement; otherwise, go to /dashboard.
       if (!userObj.hasSubmittedPlacement) {

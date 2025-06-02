@@ -1,8 +1,8 @@
-// placement.tsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Placement.module.css";
 import { motion } from "framer-motion";
+import api from "../../utils/api";
 
 const steps = [
   {
@@ -36,6 +36,27 @@ const Placement: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleStartTest = async () => {
+  try {
+    const placementTestData = {
+      duration: "15m",
+      test_date: new Date().toISOString(),
+      total_correct_answers: 0,
+      total_incorrect_answers: 0,
+    };
+
+    const response = await api.post("http://localhost:3000/tests/placement", placementTestData);
+
+    if (response.data && response.data.id) { // Use `id` instead of `testId`
+      navigate("/test-info", { state: { testId: response.data.id } });
+    } else {
+      console.error("Error: No test ID received from API.");
+    }
+  } catch (error) {
+    console.error("Error creating placement test:", error);
+  }
+};
+
   return (
     <div className={styles.pageWrapper}>
       <h1 className={styles.title}>How It Works</h1>
@@ -67,7 +88,7 @@ const Placement: React.FC = () => {
         Are you ready to take a quick placement test to find out your level?
       </p>
 
-      <button className={styles.button} onClick={() => navigate("/test-info")}>
+      <button className={styles.button} onClick={handleStartTest}>
         Let's begin!
       </button>
     </div>

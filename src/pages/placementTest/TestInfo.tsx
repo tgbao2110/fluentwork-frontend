@@ -1,21 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./TestInfo.module.css";
 import api from "../../utils/api";
-
-// --- 1. Define interfaces for the raw API response ---
-interface TestTemplateApi {
-  id: number;
-  title: string;
-  description: string;
-  type: string;
-  vocabulary_topic: string[];
-  grammar_topic: string[];
-  level: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
 
 interface OptionApi {
   id: number;
@@ -24,59 +10,17 @@ interface OptionApi {
 }
 
 interface QuestionApi {
-  questionId: number;
-  questionText: string;
-  explanation: string;
-  options: OptionApi[];
-  selectedOptionId: number | null;
-  isCorrect: boolean;
-}
-
-interface RawTestData {
-  testId: number;
-  testDate: string;
-  score: number;
-  isSubmitted: boolean;
-  level: string;
-  duration: { minutes: number };
-  template: TestTemplateApi;
-  questions: QuestionApi[];
-}
-
-// --- 2. Define your app’s interfaces (which test.tsx expects) ---
-interface TestTemplate {
   id: number;
-  title: string;
-  description: string;
-  type: string;
-  vocabulary_topic: string[];
-  grammar_topic: string[];
-  level: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-interface Option {
-  id: number;
-  option_text: string;
-  is_correct: boolean;
-}
-
-interface Question {
-  id: number;
-  type: string; // API did not provide a specific type, so we'll default to empty string
-  vocabulary_topic: string | null;
-  grammar_topic: string | null;
-  level: string;
-  question_text: string;
-  explanation: string;
-  options: Option[];
-}
-
-interface TestQuestion {
-  id: number;
-  question: Question;
+  question: {
+    id: number;
+    type: string;
+    vocabulary_topic: string | null;
+    grammar_topic: string | null;
+    level: string;
+    question_text: string;
+    explanation: string;
+    options?: OptionApi[];
+  };
 }
 
 interface Duration {
@@ -85,9 +29,7 @@ interface Duration {
 
 interface TestData {
   id: number;
-  testTemplate: TestTemplate;
-  testMistakes: any[];
-  testQuestions: TestQuestion[];
+  testQuestions: QuestionApi[];
   score: number;
   level: string;
   duration: Duration;
@@ -97,84 +39,73 @@ interface TestData {
   is_submitted: boolean;
 }
 
-// --- 3. The TestInfoPage component ---
 const TestInfoPage: React.FC = () => {
   const [testData, setTestData] = useState<TestData | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const testId = location.state?.testId;
 
   useEffect(() => {
-    // Notice we use the RawTestData type here
-    api
-      .get<RawTestData>("/tests/placement/me")
+    if (!testId) {
+      console.error("No test ID provided. Redirecting...");
+      navigate("/dashboard"); // Redirect to dashboard if no test ID
+      return;
+    }
+
+    api.get(`/tests/${testId}`)
       .then((response) => {
+        if (!response.data) {
+          throw new Error("API returned no data.");
+        }
+
         const rawData = response.data;
-        // map the raw response into our interface that test.tsx expects:
+
+        if (!rawData.testQuestions || rawData.testQuestions.length === 0) {
+          throw new Error("API response missing 'testQuestions' field.");
+        }
+
         const adaptedTestData: TestData = {
-          id: rawData.testId,
-          test_date: rawData.testDate,
+          id: rawData.id,
+          testQuestions: rawData.testQuestions,
           score: rawData.score,
-          is_submitted: rawData.isSubmitted,
           level: rawData.level,
           duration: rawData.duration,
-          testMistakes: [],
-          total_correct_answer: 0,
-          total_incorrect_answer: 0,
-          // Map the template directly – keys match for our purposes.
-          testTemplate: rawData.template,
-          // Transform questions array:
-          testQuestions: rawData.questions.map((q) => ({
-            id: q.questionId,
-            question: {
-              id: q.questionId,
-              type: "", // since the API response doesn’t include a type, default to empty
-              vocabulary_topic: null,
-              grammar_topic: null,
-              level: rawData.level,
-              question_text: q.questionText,
-              explanation: q.explanation,
-              options: q.options.map((opt) => ({
-                id: opt.id,
-                option_text: opt.text,
-                is_correct: opt.isCorrect,
-              })),
-            },
-          })),
+          test_date: rawData.test_date,
+          total_correct_answer: rawData.total_correct_answer,
+          total_incorrect_answer: rawData.total_incorrect_answer,
+          is_submitted: rawData.is_submitted,
         };
 
         setTestData(adaptedTestData);
       })
-      .catch((error) =>
-        console.error("Error fetching test data from API:", error)
-      );
-  }, []);
+      .catch((error) => {
+        console.error("Error fetching test data:", error);
+      });
+  }, [testId]);
 
   const handleStartTest = () => {
     if (testData) {
-      // Pass the adapted testData to the test page
-      navigate("/test", { state: { testData } });
+      navigate("/test", { state: { testId: testData.id } });
     }
   };
 
   if (!testData) {
-    return (
-      <div className={styles.testInfoWrapper}>
-        <div>Loading test details...</div>
-      </div>
-    );
+    return <div className={styles.testInfoWrapper}>Loading test details...</div>;
   }
 
-  const { testTemplate, testQuestions, duration } = testData;
-  const { title, description } = testTemplate;
-  const numberOfQuestions = testQuestions.length;
-  const timeLimit = duration.minutes * 60;
+  // Dynamically generate test information
+  const title = "Custom Test"; // Placeholder title
+  const description = "This test contains multiple questions covering different topics.";
+  const numberOfQuestions = testData.testQuestions.length;
+  const timeLimit = testData.duration.minutes * 60;
 
   return (
     <div className={styles.testInfoWrapper}>
       <div className={styles.testCard}>
         <h1 className={styles.testHeading}>{title}</h1>
         <div className={styles.testMeta}>
-          <span className={styles.label}>Creator:</span>
-          <span className={styles.value}>Unknown</span>
+          <span className={styles.label}>User Level:</span>
+          <span className={styles.value}>{testData.level}</span>
         </div>
         <p className={styles.testDescription}>{description}</p>
         <div className={styles.testStats}>
