@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./TestResult.module.css";
 
 interface TestResultData {
@@ -9,6 +9,7 @@ interface TestResultData {
 }
 
 const TestResultPage: React.FC = () => {
+  const navigate = useNavigate();
   const location = useLocation();
 
   // Attempt to retrieve result data passed via navigation state.
@@ -42,7 +43,9 @@ const TestResultPage: React.FC = () => {
       <div className={styles.rightSection}>
         <div className={styles.resultCard}>
           <h1 className={styles.resultTitle}>What’s Next?</h1>
-          <p>Your personalized roadmap has been created to match your level.</p>
+          <img src="/result.png" alt="result" className={styles.resultImage} />
+          <p className={styles.resultMessage}>Your personalized roadmap has been carefully crafted to align with your current level, ensuring that each step supports your learning journey. </p>
+          <button className={styles.button} onClick={() => {navigate('/learning-path')}}>Let's take a look</button>
         </div>
         </div>
       </div>

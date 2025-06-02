@@ -26,11 +26,11 @@
 }
 
 .resultNumberCircle {
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   background-color: rgba(97, 11, 239, 0.1);
   color: #610bef;
-  font-size: 60px;
+  font-size: 65px;
   font-weight: bold;
   border-radius: 50%;
   display: flex;
@@ -40,14 +40,14 @@
 }
 
 .congratulations {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   color: #2e2e2e;
   margin: 0;
 }
 
 .resultLevel {
-  font-size: 20px;
+  font-size: 22px;
   margin: 0;
 }
 
@@ -79,7 +79,8 @@
 }
 
 .resultMessage {
-  font-size: 18px;
+  font-size: 16px;
+  color:#5a5a5a;
   margin-bottom: 15px;
 }
 
@@ -96,4 +97,21 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   min-height: 150px;
+}
+.resultImage{
+  height: 170px;
+  width: 170px;
+}
+.button{
+  font-family: Poppins, sans-serif;
+  margin-top: 20px;
+  background-color: #610bef;
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }

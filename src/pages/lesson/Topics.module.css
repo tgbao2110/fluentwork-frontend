@@ -10,11 +10,38 @@
   color: #333;
 }
 
+/* New: Search bar and filter container */
+.searchInput,
+.filterSelect {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin: 10px;
+  max-width: 90%;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filterSelect {
+  width: 250px;
+}
+
+.searchInput {
+  width: 760px;
+}
+
+/* On focus */
+.searchInput:focus,
+.filterSelect:focus {
+  border-color: #610bef;
+  outline: none;
+}
+
+/* Section Styles */
 .section {
   width: 50%;
-  margin: 0 auto;
+  margin: 0 auto 50px auto;
   text-align: center;
-  margin-bottom: 50px;
 }
 
 .sectionTitle {
@@ -28,19 +55,42 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Ensures 3 cards per row */
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
   justify-content: center;
+  justify-self: center;
 }
 
+/* Responsive behavior */
 @media (max-width: 900px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 cards per row on smaller screens */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 600px) {
   .grid {
-    grid-template-columns: repeat(1, 1fr); /* 1 card per row on mobile */
+    grid-template-columns: repeat(1, 1fr);
   }
+
+  .searchInput,
+  .filterSelect {
+    width: 90%;
+    margin: 5px auto;
+  }
+
+  .section {
+    width: 90%;
+  }
+}
+
+.searchFilter{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.filters{
+  display: flex;
+  flex-direction: row;
 }

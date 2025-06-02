@@ -3,7 +3,47 @@ import { useNavigate } from "react-router-dom";
 import styles from "./TestInfo.module.css";
 import api from "../../utils/api";
 
-// Define the interfaces based on the API response.
+// --- 1. Define interfaces for the raw API response ---
+interface TestTemplateApi {
+  id: number;
+  title: string;
+  description: string;
+  type: string;
+  vocabulary_topic: string[];
+  grammar_topic: string[];
+  level: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+interface OptionApi {
+  id: number;
+  text: string;
+  isCorrect: boolean;
+}
+
+interface QuestionApi {
+  questionId: number;
+  questionText: string;
+  explanation: string;
+  options: OptionApi[];
+  selectedOptionId: number | null;
+  isCorrect: boolean;
+}
+
+interface RawTestData {
+  testId: number;
+  testDate: string;
+  score: number;
+  isSubmitted: boolean;
+  level: string;
+  duration: { minutes: number };
+  template: TestTemplateApi;
+  questions: QuestionApi[];
+}
+
+// --- 2. Define your app’s interfaces (which test.tsx expects) ---
 interface TestTemplate {
   id: number;
   title: string;
@@ -25,7 +65,7 @@ interface Option {
 
 interface Question {
   id: number;
-  type: string;
+  type: string; // API did not provide a specific type, so we'll default to empty string
   vocabulary_topic: string | null;
   grammar_topic: string | null;
   level: string;
@@ -57,19 +97,51 @@ interface TestData {
   is_submitted: boolean;
 }
 
+// --- 3. The TestInfoPage component ---
 const TestInfoPage: React.FC = () => {
   const [testData, setTestData] = useState<TestData | null>(null);
   const navigate = useNavigate();
 
-  // Fetch the test data using the API instance.
   useEffect(() => {
+    // Notice we use the RawTestData type here
     api
-      .get<TestData[]>("/tests/placement/me")
+      .get<RawTestData>("/tests/placement/me")
       .then((response) => {
-        const data = response.data;
-        if (data && data.length > 0) {
-          setTestData(data[0]);
-        }
+        const rawData = response.data;
+        // map the raw response into our interface that test.tsx expects:
+        const adaptedTestData: TestData = {
+          id: rawData.testId,
+          test_date: rawData.testDate,
+          score: rawData.score,
+          is_submitted: rawData.isSubmitted,
+          level: rawData.level,
+          duration: rawData.duration,
+          testMistakes: [],
+          total_correct_answer: 0,
+          total_incorrect_answer: 0,
+          // Map the template directly – keys match for our purposes.
+          testTemplate: rawData.template,
+          // Transform questions array:
+          testQuestions: rawData.questions.map((q) => ({
+            id: q.questionId,
+            question: {
+              id: q.questionId,
+              type: "", // since the API response doesn’t include a type, default to empty
+              vocabulary_topic: null,
+              grammar_topic: null,
+              level: rawData.level,
+              question_text: q.questionText,
+              explanation: q.explanation,
+              options: q.options.map((opt) => ({
+                id: opt.id,
+                option_text: opt.text,
+                is_correct: opt.isCorrect,
+              })),
+            },
+          })),
+        };
+
+        setTestData(adaptedTestData);
       })
       .catch((error) =>
         console.error("Error fetching test data from API:", error)
@@ -78,6 +150,7 @@ const TestInfoPage: React.FC = () => {
 
   const handleStartTest = () => {
     if (testData) {
+      // Pass the adapted testData to the test page
       navigate("/test", { state: { testData } });
     }
   };
