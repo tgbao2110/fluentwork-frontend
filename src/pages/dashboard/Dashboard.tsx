@@ -3,8 +3,12 @@ import styles from "./Dashboard.module.css";
 import Navbar from "../../components/Navbar";
 import { FaUser, FaEnvelope, FaCalendarAlt, FaLevelUpAlt, FaChartBar } from "react-icons/fa";
 import { MdOutlineHistory } from "react-icons/md";
+import { useUser } from "../../utils/UserContext"; // Adjust path as needed
+import LevelBadge from "../../components/LevelBadge";
 
 const Dashboard: React.FC = () => {
+  const { user } = useUser(); // Access user data from context
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.grid}>
@@ -14,20 +18,19 @@ const Dashboard: React.FC = () => {
           <h2><FaUser className={styles.icon} /> Profile Overview</h2>
           <div className={styles.profileInfo}>
             <div className={styles.profileText}>
-              <strong>Gia Bao</strong>
+              <strong>{user?.fullname}</strong>
               <span className={styles.label}>Full Name</span>
             </div>
             <div className={styles.profileText}>
-              <strong>giabao@gmail.com</strong>
+              <strong>{user?.email}</strong>
               <span className={styles.label}>Email</span>
             </div>
-            <div className={styles.profileBadge}>
-              <FaLevelUpAlt />
-              <span>Intermediate</span>
-            </div>
+            {user?.level && (
+                  <LevelBadge level={user.level as "Beginner" | "Intermediate" | "Advanced"} />
+              )}
             <div className={styles.profileText}>
               <FaCalendarAlt className={styles.smallIcon} />
-              <span>Registered: 10/01/2025</span>
+              <span>Registered: {/* optional date if you want */}</span>
             </div>
           </div>
         </section>

@@ -17,8 +17,12 @@ import Topics from "./pages/lesson/Topics";
 import Home from "./pages/home/Home";
 import Lesson from "./pages/lesson/Lesson";
 import PlacementTestResultPage from "./pages/placementTest/PlacementTestResult";
+import TestResultPage from "./pages/placementTest/TestResult";
 import Placement from "./pages/placementTest/Placement";
 import LearningPathPage from "./pages/lesson/LearningPath";
+
+import PlacementTestResultPageFake from "./backup/PlacementTestResultPageFake";
+import TestResultPageFake from "./backup/TestResultPageFake";
 
 function App() {
   return (
@@ -34,6 +38,7 @@ function App() {
           <Route path="/test" element={<TestPage />} />
           <Route path="/test-info" element={<TestInfoPage/>} />
           <Route path="/placement-test-result" element={<PlacementTestResultPage />} />
+          <Route path="/test-result" element={<TestResultPage />} />
           <Route path="/results" element={<Results />} />
           <Route path="/answer" element={<Answer />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

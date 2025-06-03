@@ -17,7 +17,7 @@ const Home: React.FC = () => {
         <h2 className={styles.with}>with</h2>
         <h1 className={styles.name}>FluentWork</h1>
         <button className={styles.startButton} onClick={handleStartClick}>
-          PROCEED TO LESSON ▶
+          START NOW ▶
         </button>
       </div>
 

@@ -74,7 +74,7 @@ const Login: React.FC = () => {
       if (!userObj.hasSubmittedPlacement) {
         navigate("/placement");
       } else {
-        navigate("/dashboard");
+        navigate("/learning-path");
       }
     } catch (error: any) {
       console.error("Login error:", error);
