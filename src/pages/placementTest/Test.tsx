@@ -36,14 +36,18 @@ interface TestData {
 
 const TestPage: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useUser(); // Get user data from context
+  const { user, refreshUser } = useUser();
   const [testData, setTestData] = useState<TestData | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>([]);
   const [timeLeft, setTimeLeft] = useState(0);
-  const [isDoingPlacement, setIsDoingPlacement] = useState<boolean>(false);
 
-  // Fetch test data when the page loads
+  useEffect(() => {
+    refreshUser();
+  })
+
+  const navigateTo = user?.hasSubmittedPlacement ? "/test-result" : "/placement-test-result";
+
   useEffect(() => {
     if (!user) {
       console.error("User not found, redirecting...");
@@ -51,14 +55,10 @@ const TestPage: React.FC = () => {
       return;
     }
 
-    setIsDoingPlacement(!user.hasSubmittedPlacement); // Set before submission
-
     const endpoint = user.hasSubmittedPlacement ? "/tests/me" : "/tests/placement/me";
 
     api.get(endpoint)
       .then((response) => {
-        console.log("API Response:", response.data);
-
         if (!response.data || !response.data.questions) {
           throw new Error("API returned invalid test data.");
         }
@@ -72,7 +72,6 @@ const TestPage: React.FC = () => {
       });
   }, []);
 
-  // Countdown timer
   useEffect(() => {
     if (timeLeft > 0) {
       const timer = setInterval(() => {
@@ -98,7 +97,7 @@ const TestPage: React.FC = () => {
 
   const currentQuestion = testData.questions[currentQuestionIndex];
 
-  if (!currentQuestion || !currentQuestion.options || currentQuestion.options.length === 0) {
+  if (!currentQuestion || !currentQuestion.options?.length) {
     return (
       <div className={styles.pageWrapper}>
         <div>Error: No options available for this question.</div>
@@ -128,7 +127,6 @@ const TestPage: React.FC = () => {
     if (!testData || !user) return;
 
     const endpoint = user.hasSubmittedPlacement ? "/tests/submit" : "/tests/submit-placement";
-
     const payload = {
       answers: testData.questions.map((question, index) => ({
         testQuestionId: question.questionId,
@@ -136,13 +134,16 @@ const TestPage: React.FC = () => {
       })),
     };
 
-    console.log("Submission payload:", payload);
     try {
-      // const response = await api.post(endpoint, payload);
-      // console.log("Submission response:", response.data);
+      const response = await api.post(endpoint, payload);
+      const resultData = {
+        level: response.data.level,
+        score: response.data.score,
+        message: response.data.message,
+      };
 
-      // Navigate based on `isDoingPlacement`, regardless of `hasSubmittedPlacement`
-      navigate("/placement-test-result");
+      navigate(navigateTo,{ state: { result: resultData } }
+      );
     } catch (error) {
       console.error("Error submitting test:", error);
     }

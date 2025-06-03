@@ -43,7 +43,6 @@
   font-size: 22px;
   font-weight: 600;
   color: #2e2e2e;
-  margin: 0;
 }
 
 .resultLevel {
@@ -102,61 +101,51 @@
   height: 170px;
   width: 170px;
 }
+
+.resultText{
+  font-size: 16px;
+  color: #5a5a5a;
+  margin-top: 30px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 0px;
+}
+
 .button{
   font-family: Poppins, sans-serif;
-  margin-top: 20px;
   background-color: #610bef;
   color: white;
   border: none;
-  padding: 14px 32px;
-  font-size: 18px;
+  padding: 14px 16px;
+  font-size: 16px;
   font-weight: 600;
   border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
-.topicSelector {
-  margin-top: 20px;
-  text-align: left;
+.button:hover {
+  background-color: #4a0ac1;
 }
 
-.topics {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-.topicTitle{
-  font-size: 18px;
-}
-.topicButtons{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content:center;
-  gap: 12px;
-  margin-top: 10px;
-}
-.topicButton {
+.breakButton{
   font-family: Poppins, sans-serif;
-  background-color: #eee;
-  border: 1px solid #ccc;
-  padding: 8px 16px;
-  border-radius: 8px;
+  background-color: #f5f5f5;
+  color: #610bef;
+  border: 1px solid #610bef;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
-
-.topicButton:hover {
-  background-color: #ddd;
-}
-
-.topicButton.selected {
+.breakButton:hover {
   background-color: #610bef;
   color: white;
-  border-color: #610bef;
 }

@@ -4,6 +4,7 @@ import { SlArrowRight } from "react-icons/sl";
 import styles from "./LearningPath.module.css";
 import TopicCardHorizontal from "./components/TopicCardHorizontal";
 import api from "../../utils/api";
+import { useUser } from "../../utils/UserContext";
 
 interface Lesson {
   id: number;
@@ -43,8 +44,11 @@ interface LearningPath {
 const LearningPathPage: React.FC = () => {
   const [learningPath, setLearningPath] = useState<LearningPath | null>(null);
   const navigate = useNavigate();
+  const { isLoggedIn } = useUser();
+
 
   useEffect(() => {
+    if(!isLoggedIn) navigate("/login");
     api
       .get("http://localhost:3000/learning-paths")
       .then((response) => {
@@ -56,8 +60,12 @@ const LearningPathPage: React.FC = () => {
   }, []);
 
   if (!learningPath) {
+    isLoggedIn
+      ? navigate("/placement")
+      : navigate("/login");
     return <div>Loading...</div>;
   }
+  
 
   return (
     <div className={styles.pageWrapper}>

@@ -22,17 +22,19 @@ const PlacementTestResultPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const resultDataFromNavigation = location.state?.result as TestResultData | undefined;
+const resultDataFromNavigation = location.state?.result as TestResultData | undefined;
+const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
 
-  const fakeData: TestResultData = {
-    level: "Beginner",
-    message: "Placement test submitted and level assigned.",
-    score: 4,
-  };
+if (!resultDataFromNavigation) {
+  return (
+    <div className={styles.pageWrapper}>
+      <p>Error: No result data found. Please retake the test.</p>
+    </div>
+  );
+}
 
-  const resultData: TestResultData = resultDataFromNavigation ?? fakeData;
 
-  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
+const resultData = resultDataFromNavigation;
 
   const toggleTopic = (topic: string) => {
     setSelectedTopics((prev) =>
@@ -46,7 +48,7 @@ const PlacementTestResultPage: React.FC = () => {
     const payload = {
       level: resultData.level,
       title: "UserA's Learning Path",
-      description: `A custom path for beginner learners interested in ${topicsToSend.join(", ")} topics`,
+      description: `A custom path for ${resultData.level.toLowerCase()} learners interested in ${topicsToSend.join(", ")}`,
       vocabularyTopics: topicsToSend,
     };
 
@@ -81,21 +83,21 @@ const PlacementTestResultPage: React.FC = () => {
         <div className={styles.resultCard}>
           <h1 className={styles.resultTitle}>One Last Step</h1>
           <div style={{ marginTop: "20px" }}>
-          <h4 className={styles.topicTitle} >Select topics you're interested in (up to 3):</h4>
-          <div className={styles.topicButtons}>
-            {topics.map((topic) => (
-              <button
-                key={topic}
-                onClick={() => toggleTopic(topic)}
-                className={`${styles.topicButton} ${
-                  selectedTopics.includes(topic) ? styles.selected : ""
-                }`}
-              >
-                {topic}
-              </button>
-            ))}
+            <h4 className={styles.topicTitle}>Select topics you're interested in (up to 3):</h4>
+            <div className={styles.topicButtons}>
+              {topics.map((topic) => (
+                <button
+                  key={topic}
+                  onClick={() => toggleTopic(topic)}
+                  className={`${styles.topicButton} ${
+                    selectedTopics.includes(topic) ? styles.selected : ""
+                  }`}
+                >
+                  {topic}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
           <p className={styles.resultMessage}>
             Your personalized roadmap has been carefully crafted to align with your current level,
             ensuring that each step supports your learning journey.

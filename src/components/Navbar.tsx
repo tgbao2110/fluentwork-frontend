@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import { useUser } from "../utils/UserContext";
 import LevelBadge from "../components/LevelBadge";
@@ -8,6 +8,8 @@ const Navbar: React.FC = () => {
   const { user, isLoggedIn, logout } = useUser();
   const [isTestsDropdownOpen, setTestsDropdownOpen] = useState(false);
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
+
+  const navigate = useNavigate();
   const isValidLevel = (
     level: string
   ): level is "Beginner" | "Intermediate" | "Advanced" => {
@@ -50,6 +52,7 @@ const Navbar: React.FC = () => {
     e.stopPropagation();
     logout();
     setProfileDropdownOpen(false);
+    navigate("/");
   };
 
   return (
@@ -67,38 +70,6 @@ const Navbar: React.FC = () => {
         <Link to="/flashcards" className={styles.navLink}>
           Flashcards
         </Link>
-        {/* Tests Dropdown */}
-        <div
-          className={styles.navDropdownTrigger}
-          onClick={handleTestsTriggerClick}
-        >
-          Tests
-          {isTestsDropdownOpen && (
-            <div className={styles.navDropdown}>
-              <Link
-                to="/test-info"
-                className={styles.dropdownItem}
-                onClick={() => setTestsDropdownOpen(false)}
-              >
-                Vocabulary
-              </Link>
-              <Link
-                to="/test-info"
-                className={styles.dropdownItem}
-                onClick={() => setTestsDropdownOpen(false)}
-              >
-                Grammar
-              </Link>
-              <Link
-                to="/test-info"
-                className={styles.dropdownItem}
-                onClick={() => setTestsDropdownOpen(false)}
-              >
-                Mix
-              </Link>
-            </div>
-          )}
-        </div>
       </div>
       <div className={styles.navRight}>
         {isLoggedIn && user ? (
