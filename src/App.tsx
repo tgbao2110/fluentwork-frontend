@@ -37,8 +37,8 @@ function App() {
           <Route path="/placement" element={<Placement />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/test-info" element={<TestInfoPage/>} />
-          <Route path="/placement-test-result" element={<PlacementTestResultPage />} />
-          <Route path="/test-result" element={<TestResultPage />} />
+          <Route path="/placement-test-result" element={<PlacementTestResultPageFake />} />
+          <Route path="/test-result" element={<TestResultPageFake />} />
           <Route path="/results" element={<Results />} />
           <Route path="/answer" element={<Answer />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />

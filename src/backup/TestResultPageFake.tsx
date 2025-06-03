@@ -20,7 +20,6 @@ const topics = ["Business", "Information Technology", "Finance"];
 const PlacementTestResultPageFake: React.FC = () => {
   const navigate = useNavigate();
 
-  // Hardcoded fake result data for guaranteed execution
   const resultData: TestResultData = {
     level: "Beginner",
     message: "Placement test submitted and level assigned.",

@@ -138,11 +138,11 @@ const TestPage: React.FC = () => {
 
     console.log("Submission payload:", payload);
     try {
-      const response = await api.post(endpoint, payload);
-      console.log("Submission response:", response.data);
+      // const response = await api.post(endpoint, payload);
+      // console.log("Submission response:", response.data);
 
       // Navigate based on `isDoingPlacement`, regardless of `hasSubmittedPlacement`
-      navigate(isDoingPlacement ? "/placement-test-result" : "/test-result", { state: { result: response.data } });
+      navigate("/placement-test-result");
     } catch (error) {
       console.error("Error submitting test:", error);
     }

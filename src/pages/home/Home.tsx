@@ -1,12 +1,19 @@
 import React from "react";
 import styles from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../utils/UserContext";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useUser();
+
 
   const handleStartClick = () => {
-    navigate("/learning-path");
+    if (isLoggedIn) {
+      navigate("/learning-path");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
